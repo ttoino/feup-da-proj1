@@ -7,7 +7,7 @@
 #include "../includes/utils.hpp"
 
 void UserInterface::optionsMenu(
-    const std::vector<std::pair<std::string, Menu>> &options) {
+    const std::vector<std::pair<const std::string &, Menu>> &options) {
     for (int i{1}; i < options.size(); ++i) {
         std::cout << "(" << i << ") " << options.at(i).first << std::endl;
     }
@@ -22,7 +22,7 @@ void UserInterface::optionsMenu(
         errorMessage = "Invalid option!\n";
 }
 
-unsigned long UserInterface::getUnsignedInput(std::string prompt,
+unsigned long UserInterface::getUnsignedInput(const std::string &prompt,
                                               unsigned long min,
                                               unsigned long max) {
     std::string input;
@@ -44,7 +44,7 @@ unsigned long UserInterface::getUnsignedInput(std::string prompt,
     return number;
 }
 
-double UserInterface::getDoubleInput(std::string prompt, double min,
+double UserInterface::getDoubleInput(const std::string &prompt, double min,
                                      double max) {
     std::string input;
     double number;
@@ -65,7 +65,7 @@ double UserInterface::getDoubleInput(std::string prompt, double min,
     return number;
 }
 
-std::string UserInterface::getStringInput(std::string prompt) {
+std::string UserInterface::getStringInput(const std::string &prompt) {
     std::cout << RED_TEXT << errorMessage << RESET_FORMATTING << prompt;
     errorMessage = "";
 

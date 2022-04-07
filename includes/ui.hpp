@@ -1,5 +1,5 @@
-#ifndef DA_PROJ1_2021_MENU_H
-#define DA_PROJ1_2021_MENU_H
+#ifndef DA_PROJ1_2021_UI_H
+#define DA_PROJ1_2021_UI_H
 
 class UserInterface;
 
@@ -48,7 +48,8 @@ class UserInterface {
      *
      * @param options The list of options to show
      */
-    void optionsMenu(const std::vector<std::pair<std::string, Menu>> &options);
+    void optionsMenu(
+        const std::vector<std::pair<const std::string &, Menu>> &options);
 
     /**
      * @brief Tries to transform a string into an unsigned integer, displaying
@@ -65,7 +66,7 @@ class UserInterface {
      * @return The user input, as an unsigned integer.
      */
     unsigned long getUnsignedInput(
-        std::string prompt, unsigned long min = 0,
+        const std::string &prompt, unsigned long min = 0,
         unsigned long max = std::numeric_limits<unsigned long>::max());
 
     /**
@@ -82,7 +83,7 @@ class UserInterface {
      * @param max The right bound of the limit (inclusive).
      * @return The user input, as an unsigned integer.
      */
-    double getDoubleInput(std::string prompt,
+    double getDoubleInput(const std::string &prompt,
                           double min = std::numeric_limits<double>::min(),
                           double max = std::numeric_limits<double>::max());
 
@@ -96,7 +97,7 @@ class UserInterface {
      * @param prompt Shown to the user.
      * @return The user input.
      */
-    std::string getStringInput(std::string prompt);
+    std::string getStringInput(const std::string &prompt);
 
     /**
      * @brief Checks if an unsigned integer n is inside the limit [min, max].
@@ -136,4 +137,4 @@ public:
     void exit();
 };
 
-#endif // DA_PROJ1_2021_MENU_H
+#endif // DA_PROJ1_2021_UI_H
