@@ -23,7 +23,7 @@ enum Menu {
 
 /**
  * @brief Implements the terminal interface for the user to interact with the
- *        network.
+ *        application.
  */
 class UserInterface {
     /**
