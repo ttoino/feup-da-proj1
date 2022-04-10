@@ -49,6 +49,15 @@ public:
      * @return the corresponding Van object 
      */
     static Van from(const std::vector<std::string>&);
+
+    /**
+     * @brief Processes the dataset for vans and returns a collection of Van objects parsed from that dataset.
+     * 
+     * @return a collection of Van objects
+     */
+    static std::vector<Van> processDataset();
+
+    friend std::ostream& operator<<(std::ostream&, const Van&); 
 };
 
 #endif

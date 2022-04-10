@@ -1,4 +1,8 @@
+#include <fstream>
+
+#include "../includes/constants.hpp"
 #include "../includes/van.hpp"
+#include "../includes/utils.hpp"
 
 Van::Van(int maxVol, int maxWeight, int cost) : maxVolume(maxVol), maxWeight(maxWeight), cost(cost) {};
 
@@ -13,4 +17,30 @@ Van Van::from(const std::vector<std::string> &tokens) {
     int cost = std::stoi(tokens.at(2));
 
     return Van{maxVol, maxWeigth, cost};
+}
+
+std::vector<Van> Van::processDataset() {
+
+    std::ifstream dataset_file{VANS_FILE_PATH};
+
+    if (!dataset_file.is_open()) {
+        // error
+    }
+
+    std::string line;
+    std::vector<Van> result;
+
+    std::getline(dataset_file, line); // ignore dataset header
+
+    while (std::getline(dataset_file, line))
+        result.push_back(Van::from(split(line, ' ')));
+
+    return result;
+}
+
+std::ostream& operator<<(std::ostream& out, const Van& v) {
+
+    out << "Van[ maxVol=" << v.maxVolume << ", maxWeigth=" << v.maxWeight << ", cost=" << v.cost << " ]";
+
+    return out;
 }

@@ -8,12 +8,16 @@ set(CMAKE_CXX_STANDARD 20)
 add_executable(da_proj1
                src/main.cpp
                src/ui.cpp
-               src/utils.cpp)
+               src/utils.cpp
+               src/van.cpp
+               src/delivery.cpp)
 
 add_executable(da_proj1_no_ansi
                 src/main.cpp
                 src/ui.cpp
-                src/utils.cpp)
+                src/utils.cpp
+                src/van.cpp
+                src/delivery.cpp)
 target_compile_definitions(da_proj1_no_ansi PUBLIC NO_ANSI)
 
 include_directories(da_proj1 includes/)
