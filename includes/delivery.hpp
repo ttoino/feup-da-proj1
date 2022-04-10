@@ -1,6 +1,9 @@
 #ifndef DA_PROJ1_2021_DELIVERY_H
 #define DA_PROJ1_2021_DELIVERY_H
 
+#include <vector>
+#include <string>
+
 /**
  * @brief Object representatioion for a delivery in the context of the application.
  * 
@@ -47,6 +50,13 @@ public:
      * @return the duration of this delivery
      */
     int getDuration() const;
+
+    /**
+     * @brief Creates a Delivery object from a set of tokens;
+     * 
+     * @return the corresponding Delivery object
+     */
+    static Delivery from(const std::vector<std::string>&);
 };
 
 #endif

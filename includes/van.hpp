@@ -1,6 +1,9 @@
 #ifndef DA_PROJ1_2021_VAN_H
 #define DA_PROJ1_2021_VAN_H
 
+#include <vector>
+#include <string>
+
 /**
  * @brief Object representatioion for a van in the context of the application.
  * 
@@ -39,6 +42,13 @@ public:
      * @return the cost of moving cargo using this Van
      */
     int getCost() const;
+
+    /**
+     * @brief Constructs a Van object from a collection of tokens. 
+     * 
+     * @return the corresponding Van object 
+     */
+    static Van from(const std::vector<std::string>&);
 };
 
 #endif
