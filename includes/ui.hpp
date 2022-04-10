@@ -48,8 +48,8 @@ class UserInterface {
      *
      * @param options The list of options to show
      */
-    void optionsMenu(
-        const std::vector<std::pair<const std::string &, Menu>> &options);
+    void
+    optionsMenu(const std::vector<std::pair<const std::string, Menu>> &options);
 
     /**
      * @brief Tries to transform a string into an unsigned integer, displaying

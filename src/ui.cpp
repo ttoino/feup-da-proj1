@@ -7,7 +7,7 @@
 #include "../includes/utils.hpp"
 
 void UserInterface::optionsMenu(
-    const std::vector<std::pair<const std::string &, Menu>> &options) {
+    const std::vector<std::pair<const std::string, Menu>> &options) {
     for (int i{1}; i < options.size(); ++i) {
         std::cout << "(" << i << ") " << options.at(i).first << std::endl;
     }
