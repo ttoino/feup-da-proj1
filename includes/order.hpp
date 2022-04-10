@@ -8,20 +8,20 @@
  * @brief Object representatioion for a delivery in the context of the application.
  * 
  */
-class Delivery {
+class Order {
 
     int volume, weight, reward, duration;
 public:
 
     /**
-     * @brief Construct a new Delivery object
+     * @brief Construct a new Order object
      * 
      * @param vol the volume of this delivery
      * @param weight the weight of this delivery
      * @param reward the reward for this delivery
      * @param duration the duration of this delivery
      */
-    Delivery(int vol, int weight, int reward, int duration);
+    Order(int vol, int weight, int reward, int duration);
 
     /**
      * @brief Get the volume of this delivery
@@ -52,11 +52,20 @@ public:
     int getDuration() const;
 
     /**
-     * @brief Creates a Delivery object from a set of tokens;
+     * @brief Creates a Order object from a set of tokens;
      * 
-     * @return the corresponding Delivery object
+     * @return the corresponding Order object
      */
-    static Delivery from(const std::vector<std::string>&);
+    static Order from(const std::vector<std::string>&);
+
+    /**
+     * @brief Processes the dataset for vans and returns a collection of Van objects parsed from that dataset.
+     * 
+     * @return a collection of Van objects
+     */
+    static std::vector<Order> processDataset();
+
+    friend std::ostream& operator<<(std::ostream&, const Order&);
 };
 
 #endif

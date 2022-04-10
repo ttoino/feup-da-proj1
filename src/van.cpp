@@ -23,9 +23,7 @@ std::vector<Van> Van::processDataset() {
 
     std::ifstream dataset_file{VANS_FILE_PATH};
 
-    if (!dataset_file.is_open()) {
-        // error
-    }
+    if (!dataset_file.is_open()) return {};
 
     std::string line;
     std::vector<Van> result;
