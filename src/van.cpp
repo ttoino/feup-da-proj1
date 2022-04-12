@@ -42,3 +42,7 @@ std::ostream &operator<<(std::ostream &out, const Van &v) {
 
     return out;
 }
+
+void Van::addOrder(const Order &order) {
+    orders.push_back(order);
+}

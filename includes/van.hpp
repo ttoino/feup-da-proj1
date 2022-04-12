@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include "order.hpp"
 
 /**
  * @brief Object representation for a van in the context of the application.
@@ -10,6 +11,7 @@
 class Van {
 
     int maxVolume, maxWeight, cost;
+    std::vector<Order> orders;
 
 public:
     /**
@@ -56,6 +58,13 @@ public:
      * @return a collection of Van objects
      */
     static std::vector<Van> processDataset();
+
+    /**
+     * @brief assigns an order to a van
+     *
+     * @param order the order to be assigned
+     */
+    void addOrder(const Order &order);
 
     friend std::ostream &operator<<(std::ostream &, const Van &);
 };
