@@ -9,9 +9,12 @@
 #include <string>
 
 struct Data {
-    std::vector<Order> orders;
+    std::vector<Order> remainingOrders;
     std::vector<Van> vans;
-    int vansUsed = 0, ordersDispatched = 0;
+    int vansUsed = 0;
+    int ordersDispatched = 0;
+    int ordersForTheDay;
+    int vansForTheDay;
 };
 
 
