@@ -3,34 +3,35 @@
 #include <vector>
 #include <algorithm>
 
-Dataset scenario1(std::string &option) {
+Data scenario1(std::string &option) {
+    Data data;
     Dataset dataset = Dataset::load();
-    std::vector<Order> orders = dataset.getOrders();
-    std::vector<Van> vans = dataset.getVans();
+    data.orders = dataset.getOrders();
+    data.vans = dataset.getVans();
 
     if(option == "volume") {
-        std::sort(vans.begin(), vans.end(), [] (const Van &v1, const Van &v2) {
+        std::sort(data.vans.begin(), data.vans.end(), [] (const Van &v1, const Van &v2) {
             if(v1.getMaxWeight() == v2.getMaxWeight()) {
                 return v1.getMaxWeight() > v2.getMaxWeight();
             }
             return v1.getMaxVolume() > v2.getMaxVolume();
         });
 
-        std::sort(orders.begin(), orders.end(), [] (const Order &order1, const Order &order2) {
+        std::sort(data.orders.begin(), data.orders.end(), [] (const Order &order1, const Order &order2) {
             if(order1.getVolume() == order2.getVolume()) {
                 return order1.getWeight() < order2.getWeight();
             }
             return order1.getVolume() < order2.getVolume();
         });
     } else if (option == "weight") {
-        std::sort(vans.begin(), vans.end(), [] (const Van &v1, const Van &v2) {
+        std::sort(data.vans.begin(), data.vans.end(), [] (const Van &v1, const Van &v2) {
             if(v1.getMaxVolume() == v2.getMaxVolume()) {
                 return v1.getMaxVolume() > v2.getMaxVolume();
             }
             return v1.getMaxWeight() > v2.getMaxWeight();
         });
 
-        std::sort(orders.begin(), orders.end(), [] (const Order &order1, const Order &order2) {
+        std::sort(data.orders.begin(), data.orders.end(), [] (const Order &order1, const Order &order2) {
             if(order1.getWeight() == order2.getWeight()) {
                 return order1.getVolume() < order2.getVolume();
             }
@@ -39,20 +40,24 @@ Dataset scenario1(std::string &option) {
     } else {
         std::cerr << "Invalid option\n";
     }
-    
-    auto vanIterator = vans.begin();
-    auto orderIterator = orders.begin();
+
+    auto vanIterator = data.vans.begin();
+    auto orderIterator = data.orders.begin();
 
     while (
-        vanIterator != vans.end() && // while we still have vans to carry orders
-        orderIterator != orders.end() // while we still have orders to process
+        vanIterator != data.vans.end() && // while we still have vans to carry orders
+        orderIterator != data.orders.end() // while we still have orders to process
     ) {
-        if (!orderIterator->fitsIn(*vanIterator)) // we have exhausted the current van, move to the next one
+        if (!orderIterator->fitsIn(*vanIterator)){ // we have exhausted the current van, move to the next one
             vanIterator++;
+            data.vansUsed++;
+        }
 
-        if (vanIterator != vans.end())
+        if (vanIterator != data.vans.end()) {
             vanIterator->addOrder(*orderIterator++);
+            data.ordersDispatched++;
+        }
     }
 
-    return dataset;
+    return data;
 }

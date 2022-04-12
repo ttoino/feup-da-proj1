@@ -8,6 +8,13 @@
 #include <iostream>
 #include <string>
 
+struct Data {
+    std::vector<Order> orders;
+    std::vector<Van> vans;
+    int vansUsed = 0, ordersDispatched = 0;
+};
+
+
 /**
  * @brief the number of vans is minimized and the number of orders delivered is maximized
  *
@@ -18,6 +25,9 @@
  * @note the vans are sorted by <option> in descending order
  * @note the orders are sorted by <option> in ascending order
  */
-Dataset scenario1(std::string &option);
+Data scenario1(std::string &option);
+
+Data scenario2();
+
 
 #endif //DA_PROJ1_SCENARIO1_HPP
