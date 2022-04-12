@@ -9,6 +9,7 @@ class UserInterface;
 #include <vector>
 
 #include "../includes/dataset.hpp"
+#include "../includes/simulation.hpp"
 
 /**
  * @brief Holds the possible menu values.
@@ -32,6 +33,9 @@ enum Menu {
     CHOOSE_SCENARIO,
 
     SCENARIO_ONE,
+    SCENARIO_ONE_VOLUME,
+    SCENARIO_ONE_WEIGHT,
+
     SCENARIO_TWO,
     SCENARIO_THREE,
 
@@ -57,6 +61,8 @@ class UserInterface {
      * @brief The error message to show.
      */
     std::string errorMessage{};
+
+    SimulationResult result{};
 
     /**
      * @brief Helper method to show a menu with options.
@@ -154,6 +160,8 @@ class UserInterface {
     void showVansMenu(Dataset &dataset);
 
     void chooseScenarioMenu();
+
+    void scenarioOneMenu();
 
     void resultsMenu(Dataset &dataset);
 

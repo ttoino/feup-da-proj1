@@ -3,9 +3,9 @@
 
 class Van;
 
+#include "van.hpp"
 #include <string>
 #include <vector>
-#include "van.hpp"
 
 /**
  * @brief Object representation for a delivery in the context of the
@@ -53,13 +53,6 @@ public:
      * @return the duration of this delivery
      */
     int getDuration() const;
-
-    /**
-     * @brief Checks if this order can fit in the specified van.
-     * 
-     * @return if this order can fit in the specified van
-     */
-    bool fitsIn(const Van&) const;
 
     /**
      * @brief Creates a Order object from a set of tokens;

@@ -5,7 +5,8 @@
 #include "../includes/van.hpp"
 
 Van::Van(int maxVol, int maxWeight, int cost)
-    : maxVolume(maxVol), maxWeight(maxWeight), cost(cost){};
+    : maxVolume(maxVol), currentVolume(0), maxWeight(maxWeight),
+      currentWeight(0), cost(cost){};
 
 int Van::getMaxVolume() const { return this->maxVolume; };
 int Van::getMaxWeight() const { return this->maxWeight; };
@@ -45,11 +46,17 @@ std::ostream &operator<<(std::ostream &out, const Van &v) {
     return out;
 }
 
+bool Van::canFit(const Order &o) const {
+    return getCurrentVolume() + o.getVolume() <= getMaxVolume() &&
+           getCurrentWeight() + o.getWeight() <= getMaxWeight();
+}
+
 void Van::addOrder(const Order &order) {
 
-    if (!order.fitsIn(*this)) return;
+    if (!canFit(order))
+        return;
 
     orders.push_back(order);
-    this->currentVolume -= order.getVolume();
-    this->currentWeight -= order.getWeight();
+    this->currentVolume += order.getVolume();
+    this->currentWeight += order.getWeight();
 }

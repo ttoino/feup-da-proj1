@@ -3,9 +3,9 @@
 
 class Order;
 
+#include "order.hpp"
 #include <string>
 #include <vector>
-#include "order.hpp"
 
 /**
  * @brief Object representation for a van in the context of the application.
@@ -48,14 +48,14 @@ public:
 
     /**
      * @brief Get the current volume allocated for this van.
-     * 
+     *
      * @return the current volume allocated for this Van
      */
     int getCurrentVolume() const;
 
     /**
      * @brief Get the current weight allocated for this van.
-     * 
+     *
      * @return the current weight allocated for this van
      */
     int getCurrentWeight() const;
@@ -81,6 +81,13 @@ public:
      * @param order the order to be assigned
      */
     void addOrder(const Order &order);
+
+    /**
+     * @brief Checks if an order can fit in this van.
+     *
+     * @return if the order can fit in this van
+     */
+    bool canFit(const Order &order) const;
 
     friend std::ostream &operator<<(std::ostream &, const Van &);
 };

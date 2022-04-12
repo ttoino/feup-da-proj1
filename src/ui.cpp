@@ -5,6 +5,8 @@
 #include <vector>
 
 #include "../includes/constants.hpp"
+#include "../includes/scenario1.hpp"
+#include "../includes/simulation.hpp"
 #include "../includes/ui.hpp"
 #include "../includes/utils.hpp"
 
@@ -119,9 +121,21 @@ void UserInterface::show(Dataset &dataset) {
         break;
 
     case SCENARIO_ONE:
-        // TODO: Process data and get results for scenario 1
+        scenarioOneMenu();
+        break;
+    case SCENARIO_ONE_VOLUME: {
+        Simulation1 sim(Simulation1::VOLUME);
+        result = sim.run();
         currentMenu = RESULTS;
         break;
+    }
+    case SCENARIO_ONE_WEIGHT: {
+        Simulation1 sim(Simulation1::WEIGHT);
+        result = sim.run();
+        currentMenu = RESULTS;
+        break;
+    }
+
     case SCENARIO_TWO:
         // TODO: Process data and get results for scenario 2
         currentMenu = RESULTS;
@@ -158,7 +172,7 @@ void UserInterface::mainMenu() {
 template <class T>
 void UserInterface::paginatedMenu(const std::vector<T> &items) {
     static unsigned int page{0};
-    
+
     unsigned int pages = ceil((float)items.size() / ITEMS_PER_PAGE);
 
     for (auto i{items.begin() + page * ITEMS_PER_PAGE},
@@ -195,7 +209,21 @@ void UserInterface::chooseScenarioMenu() {
     });
 }
 
+void UserInterface::scenarioOneMenu() {
+    optionsMenu({
+        {"Go back", CHOOSE_SCENARIO},
+        {"Optimize using volume", SCENARIO_ONE_VOLUME},
+        {"Optimize using weight", SCENARIO_ONE_WEIGHT},
+    });
+}
+
 void UserInterface::resultsMenu(Dataset &dataset) {
+    std::cout << result.remainingOrders.size() << " remaining orders\n"
+              << result.vans.size() << " vans\nUsed " << result.vansUsed
+              << " vans\nDispatched " << result.ordersDispatched << " orders\n"
+              << result.ordersForTheDay << " orders for the day\n"
+              << result.vansForTheDay << " vans for the day\n\n";
+
     getStringInput("Press enter to continue ");
     currentMenu = MAIN;
 }

@@ -5,28 +5,23 @@
 #include <string>
 
 #include "dataset.hpp"
+#include "order.hpp"
 #include "simulation.hpp"
 #include "van.hpp"
-#include "order.hpp"
 
 class Simulation1 : public Simulation {
 public:
-
-    enum SimulationOptions {
-        WEIGHT,
-        VOLUME
-    };
+    enum SimulationOptions { WEIGHT, VOLUME };
 
 private:
-    
     SimulationOptions option;
 
 public:
+    Simulation1(SimulationOptions option) : option(option){};
 
-    Simulation1(SimulationOptions option);
-    
     /**
-     * @brief the number of vans is minimized and the number of orders delivered is maximized
+     * @brief the number of vans is minimized and the number of orders delivered
+     * is maximized
      *
      * @param option how to sort the vans and orders
      *
@@ -38,4 +33,4 @@ public:
     SimulationResult run();
 };
 
-#endif //DA_PROJ1_SCENARIO1_HPP
+#endif // DA_PROJ1_SCENARIO1_HPP
