@@ -1,10 +1,11 @@
 #include <fstream>
 
-#include "../includes/order.hpp"
 #include "../includes/constants.hpp"
+#include "../includes/order.hpp"
 #include "../includes/utils.hpp"
 
-Order::Order(int vol, int weight, int reward, int duration) : volume(vol), weight(weight), reward(reward), duration(duration) {};
+Order::Order(int vol, int weight, int reward, int duration)
+    : volume(vol), weight(weight), reward(reward), duration(duration){};
 
 int Order::getVolume() const { return this->volume; }
 int Order::getWeight() const { return this->weight; }
@@ -25,7 +26,8 @@ std::vector<Order> Order::processDataset() {
 
     std::ifstream dataset_file{ORDERS_FILE_PATH};
 
-    if (!dataset_file.is_open()) return {};
+    if (!dataset_file.is_open())
+        return {};
 
     std::string line;
     std::vector<Order> result;
@@ -38,9 +40,10 @@ std::vector<Order> Order::processDataset() {
     return result;
 }
 
-std::ostream& operator<<(std::ostream& out, const Order& o) {
+std::ostream &operator<<(std::ostream &out, const Order &o) {
 
-    out << "Order[ volume=" << o.volume << ", weight=" << o.weight << ", reward=" << o.reward << ", duration=" << o.duration << " ]";
+    out << "Order[ volume=" << o.volume << ", weight=" << o.weight
+        << ", reward=" << o.reward << ", duration=" << o.duration << " ]";
 
     return out;
 }

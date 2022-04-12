@@ -1,5 +1,5 @@
-#ifndef DA_PROJ1_2021_UTILS_H
-#define DA_PROJ1_2021_UTILS_H
+#ifndef DA_PROJ1_UTILS_H
+#define DA_PROJ1_UTILS_H
 
 #include <string>
 #include <vector>

@@ -1,9 +1,5 @@
-//
-// Created by toni on 25/01/22.
-//
-
-#ifndef DA_PROJ1_2021_CONSTANTS_H
-#define DA_PROJ1_2021_CONSTANTS_H
+#ifndef DA_PROJ1_CONSTANTS_H
+#define DA_PROJ1_CONSTANTS_H
 
 #include <string>
 
@@ -93,4 +89,4 @@ const std::string RESET_FORMATTING = "\33[0m";
  */
 const std::string PROGRAM_NAME = "DA - Project 1";
 
-#endif // DA_PROJ1_2021_CONSTANTS_H
+#endif // DA_PROJ1_CONSTANTS_H

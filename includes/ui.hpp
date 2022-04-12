@@ -1,5 +1,5 @@
-#ifndef DA_PROJ1_2021_UI_H
-#define DA_PROJ1_2021_UI_H
+#ifndef DA_PROJ1_UI_H
+#define DA_PROJ1_UI_H
 
 class UserInterface;
 
@@ -137,4 +137,4 @@ public:
     void exit();
 };
 
-#endif // DA_PROJ1_2021_UI_H
+#endif // DA_PROJ1_UI_H
