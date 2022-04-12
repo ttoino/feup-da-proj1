@@ -1,3 +1,5 @@
+#include <cmath>
+#include <iomanip>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -153,20 +155,33 @@ void UserInterface::mainMenu() {
     });
 }
 
-void UserInterface::showOrdersMenu(Dataset &dataset) {
-    for (const auto &order : dataset.getOrders())
-        std::cout << order << std::endl;
+template <class T>
+void UserInterface::paginatedMenu(const std::vector<T> &items) {
+    unsigned int pages = ceil((float)items.size() / ITEMS_PER_PAGE);
 
-    getStringInput("Press enter to continue ");
-    currentMenu = MAIN;
+    for (auto i{items.begin() + page * ITEMS_PER_PAGE},
+         end{page == pages - 1 ? items.end()
+                               : items.begin() + (page + 1) * ITEMS_PER_PAGE};
+         i < end; ++i)
+        std::cout << *i << std::endl;
+
+    std::cout << "\nPage " << page + 1 << " of " << pages;
+    getStringInput("\nPress enter for next page ");
+
+    if (++page == pages) {
+        currentMenu = MAIN;
+        page = 0;
+    }
+}
+
+void UserInterface::showOrdersMenu(Dataset &dataset) {
+    std::cout << "Volume\tWeight\tReward\tDuration\n";
+    paginatedMenu(dataset.getOrders());
 }
 
 void UserInterface::showVansMenu(Dataset &dataset) {
-    for (const auto &van : dataset.getVans())
-        std::cout << van << std::endl;
-
-    getStringInput("Press enter to continue ");
-    currentMenu = MAIN;
+    std::cout << "Volume\tWeight\tCost\n" << std::left;
+    paginatedMenu(dataset.getVans());
 }
 
 void UserInterface::chooseScenarioMenu() {

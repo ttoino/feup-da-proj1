@@ -3,6 +3,7 @@
 
 class UserInterface;
 
+#include <functional>
 #include <limits>
 #include <string>
 #include <vector>
@@ -50,12 +51,14 @@ class UserInterface {
     /**
      * @brief Specifies which menu to show.
      */
-    Menu currentMenu;
+    Menu currentMenu{MAIN};
 
     /**
      * @brief The error message to show.
      */
     std::string errorMessage{};
+
+    unsigned int page{0};
 
     /**
      * @brief Helper method to show a menu with options.
@@ -140,6 +143,8 @@ class UserInterface {
      * @return A boolean that confirms whether or not min <= n <= max.
      */
     bool inRange(double n, double min, double max);
+
+    template <class T> void paginatedMenu(const std::vector<T> &items);
 
     /**
      * @brief Displays an initial menu to start the program.

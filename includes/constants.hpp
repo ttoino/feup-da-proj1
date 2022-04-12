@@ -12,6 +12,8 @@ const std::string VANS_FILE_PATH = "../dataset/carrinhas.txt";
  */
 const std::string ORDERS_FILE_PATH = "../dataset/encomendas.txt";
 
+const unsigned int ITEMS_PER_PAGE = 10;
+
 // Terminal escape sequences
 #ifdef NO_ANSI
 

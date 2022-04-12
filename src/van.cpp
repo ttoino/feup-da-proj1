@@ -13,10 +13,10 @@ int Van::getCost() const { return this->cost; };
 
 Van Van::from(const std::vector<std::string> &tokens) {
     int maxVol = std::stoi(tokens.at(0));
-    int maxWeigth = std::stoi(tokens.at(1));
+    int maxWeight = std::stoi(tokens.at(1));
     int cost = std::stoi(tokens.at(2));
 
-    return Van{maxVol, maxWeigth, cost};
+    return Van{maxVol, maxWeight, cost};
 }
 
 std::vector<Van> Van::processDataset() {
@@ -38,8 +38,7 @@ std::vector<Van> Van::processDataset() {
 }
 
 std::ostream &operator<<(std::ostream &out, const Van &v) {
-    out << "Van[ maxVol=" << v.maxVolume << ", maxWeigth=" << v.maxWeight
-        << ", cost=" << v.cost << " ]";
+    out << v.getMaxVolume() << '\t' << v.getMaxWeight() << '\t' << v.getCost();
 
     return out;
 }

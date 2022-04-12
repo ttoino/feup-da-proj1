@@ -41,9 +41,8 @@ std::vector<Order> Order::processDataset() {
 }
 
 std::ostream &operator<<(std::ostream &out, const Order &o) {
-
-    out << "Order[ volume=" << o.volume << ", weight=" << o.weight
-        << ", reward=" << o.reward << ", duration=" << o.duration << " ]";
+    out << o.getVolume() << '\t' << o.getWeight() << '\t' << o.getReward()
+        << '\t' << o.getDuration();
 
     return out;
 }
