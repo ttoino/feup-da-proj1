@@ -1,36 +1,41 @@
 #ifndef DA_PROJ1_SCENARIO1_HPP
 #define DA_PROJ1_SCENARIO1_HPP
 
-#include "dataset.hpp"
-#include "van.hpp"
-#include "order.hpp"
-
 #include <iostream>
 #include <string>
 
-struct Data {
-    std::vector<Order> remainingOrders;
-    std::vector<Van> vans;
-    int vansUsed = 0;
-    int ordersDispatched = 0;
-    int ordersForTheDay;
-    int vansForTheDay;
+#include "dataset.hpp"
+#include "simulation.hpp"
+#include "van.hpp"
+#include "order.hpp"
+
+class Simulation1 : public Simulation {
+public:
+
+    enum SimulationOptions {
+        WEIGHT,
+        VOLUME
+    };
+
+private:
+    
+    SimulationOptions option;
+
+public:
+
+    Simulation1(SimulationOptions option);
+    
+    /**
+     * @brief the number of vans is minimized and the number of orders delivered is maximized
+     *
+     * @param option how to sort the vans and orders
+     *
+     * @details option must be "volume" or "weight"
+     *
+     * @note the vans are sorted by <option> in descending order
+     * @note the orders are sorted by <option> in ascending order
+     */
+    SimulationResult run();
 };
-
-
-/**
- * @brief the number of vans is minimized and the number of orders delivered is maximized
- *
- * @param option how to sort the vans and orders
- *
- * @details option must be "volume" or "weight"
- *
- * @note the vans are sorted by <option> in descending order
- * @note the orders are sorted by <option> in ascending order
- */
-Data scenario1(std::string &option);
-
-Data scenario2();
-
 
 #endif //DA_PROJ1_SCENARIO1_HPP
