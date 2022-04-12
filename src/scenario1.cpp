@@ -32,7 +32,8 @@ Dataset scenario1() {
         if (!orderIterator->fitsIn(*vanIterator)) // we have exhausted the current van, move to the next one
             vanIterator++;
 
-        vanIterator->addOrder(*orderIterator);
+        if (vanIterator != vans.end())
+            vanIterator->addOrder(*orderIterator++);
     }
 
     return dataset;
