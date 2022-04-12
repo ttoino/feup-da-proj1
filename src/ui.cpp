@@ -157,6 +157,8 @@ void UserInterface::mainMenu() {
 
 template <class T>
 void UserInterface::paginatedMenu(const std::vector<T> &items) {
+    static unsigned int page{0};
+    
     unsigned int pages = ceil((float)items.size() / ITEMS_PER_PAGE);
 
     for (auto i{items.begin() + page * ITEMS_PER_PAGE},

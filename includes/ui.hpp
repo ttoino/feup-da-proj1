@@ -58,8 +58,6 @@ class UserInterface {
      */
     std::string errorMessage{};
 
-    unsigned int page{0};
-
     /**
      * @brief Helper method to show a menu with options.
      *
