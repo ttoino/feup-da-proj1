@@ -99,14 +99,41 @@ bool UserInterface::inRange(double n, double min, double max) {
     return b;
 }
 
-void UserInterface::show() {
+void UserInterface::show(Dataset &dataset) {
     std::cout << CLEAR_SCREEN << PROGRAM_NAME << '\n' << std::endl;
 
     switch (currentMenu) {
     case MAIN:
         mainMenu();
         break;
+    case SHOW_ORDERS:
+        showOrdersMenu(dataset);
+        break;
+    case SHOW_VANS:
+        showVansMenu(dataset);
+        break;
+    case CHOOSE_SCENARIO:
+        chooseScenarioMenu();
+        break;
+
+    case SCENARIO_ONE:
+        // TODO: Process data and get results for scenario 1
+        currentMenu = RESULTS;
+        break;
+    case SCENARIO_TWO:
+        // TODO: Process data and get results for scenario 2
+        currentMenu = RESULTS;
+        break;
+    case SCENARIO_THREE:
+        // TODO: Process data and get results for scenario 3
+        currentMenu = RESULTS;
+        break;
+
+    case RESULTS:
+        resultsMenu(dataset);
+        break;
     case EXIT:
+    default:
         throw Exit();
         break;
     }
@@ -120,5 +147,38 @@ void UserInterface::exit() {
 void UserInterface::mainMenu() {
     optionsMenu({
         {"Exit", EXIT},
+        {"Orders", SHOW_ORDERS},
+        {"Vans", SHOW_VANS},
+        {"Choose scenario", CHOOSE_SCENARIO},
     });
+}
+
+void UserInterface::showOrdersMenu(Dataset &dataset) {
+    for (const auto &order : dataset.getOrders())
+        std::cout << order << std::endl;
+
+    getStringInput("Press enter to continue ");
+    currentMenu = MAIN;
+}
+
+void UserInterface::showVansMenu(Dataset &dataset) {
+    for (const auto &van : dataset.getVans())
+        std::cout << van << std::endl;
+
+    getStringInput("Press enter to continue ");
+    currentMenu = MAIN;
+}
+
+void UserInterface::chooseScenarioMenu() {
+    optionsMenu({
+        {"Go back", MAIN},
+        {"Scenario 1 - Minimize used vans", SCENARIO_ONE},
+        {"Scenario 2 - Maximize profit", SCENARIO_TWO},
+        {"Scenario 3 - Maximize express deliveries", SCENARIO_THREE},
+    });
+}
+
+void UserInterface::resultsMenu(Dataset &dataset) {
+    getStringInput("Press enter to continue ");
+    currentMenu = MAIN;
 }

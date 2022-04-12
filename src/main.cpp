@@ -1,20 +1,16 @@
 #include <iostream>
 
-#include "../includes/van.hpp"
+#include "../includes/dataset.hpp"
 #include "../includes/ui.hpp"
 #include "../includes/utils.hpp"
 
 int main() {
     UserInterface ui{};
-
-    auto vans = Van::processDataset();
-
-    for (const auto& van : vans)
-        std::cout << van << std::endl;
+    Dataset dataset = Dataset::load();
 
     try {
         while (true)
-            ui.show();
+            ui.show(dataset);
     } catch (Exit) {
         ui.exit();
     }

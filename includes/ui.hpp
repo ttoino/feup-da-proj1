@@ -7,6 +7,8 @@ class UserInterface;
 #include <string>
 #include <vector>
 
+#include "../includes/dataset.hpp"
+
 /**
  * @brief Holds the possible menu values.
  */
@@ -15,6 +17,25 @@ enum Menu {
      * @brief Displays an initial menu to start the program.
      */
     MAIN,
+    /**
+     * @brief Shows info about the orders.
+     */
+    SHOW_ORDERS,
+    /**
+     * @brief Shows info about the vans.
+     */
+    SHOW_VANS,
+    /**
+     * @brief Allows the user to choose which scenario to calculate.
+     */
+    CHOOSE_SCENARIO,
+
+    SCENARIO_ONE,
+    SCENARIO_TWO,
+    SCENARIO_THREE,
+
+    RESULTS,
+
     /**
      * @brief Exits the program.
      */
@@ -66,7 +87,8 @@ class UserInterface {
      * @return The user input, as an unsigned integer.
      */
     unsigned long getUnsignedInput(
-        const std::string &prompt, unsigned long min = 0,
+        const std::string &prompt,
+        unsigned long min = std::numeric_limits<unsigned long>::min(),
         unsigned long max = std::numeric_limits<unsigned long>::max());
 
     /**
@@ -124,13 +146,21 @@ class UserInterface {
      */
     void mainMenu();
 
+    void showOrdersMenu(Dataset &dataset);
+
+    void showVansMenu(Dataset &dataset);
+
+    void chooseScenarioMenu();
+
+    void resultsMenu(Dataset &dataset);
+
 public:
     /**
      * @brief Shows the current menu.
      *
      * @param graph The graph.
      */
-    void show();
+    void show(Dataset &dataset);
     /**
      * @brief Shows a message before the program exits.
      */
