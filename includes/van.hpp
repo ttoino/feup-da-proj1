@@ -1,6 +1,8 @@
 #ifndef DA_PROJ1_VAN_H
 #define DA_PROJ1_VAN_H
 
+class Order;
+
 #include <string>
 #include <vector>
 #include "order.hpp"
@@ -10,7 +12,7 @@
  */
 class Van {
 
-    int maxVolume, maxWeight, cost;
+    int maxVolume, maxWeight, cost, currentVolume, currentWeight;
     std::vector<Order> orders;
 
 public:
@@ -43,6 +45,20 @@ public:
      * @return the cost of moving cargo using this Van
      */
     int getCost() const;
+
+    /**
+     * @brief Get the current volume allocated for this van.
+     * 
+     * @return the current volume allocated for this Van
+     */
+    int getCurrentVolume() const;
+
+    /**
+     * @brief Get the current weight allocated for this van.
+     * 
+     * @return the current weight allocated for this van
+     */
+    int getCurrentWeight() const;
 
     /**
      * @brief Constructs a Van object from a collection of tokens.

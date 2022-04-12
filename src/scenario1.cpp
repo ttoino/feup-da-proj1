@@ -1,13 +1,10 @@
 #include "../includes/scenario1.hpp"
-#include "../includes/dataset.hpp"
-#include "../includes/order.hpp"
-#include "../includes/van.hpp"
 
 #include <vector>
 #include <algorithm>
 
-void scenario1() {
-    Dataset dataset;
+Dataset scenario1() {
+    Dataset dataset = Dataset::load();
     std::vector<Order> orders = dataset.getOrders();
     std::vector<Van> vans = dataset.getVans();
 
@@ -25,4 +22,18 @@ void scenario1() {
         return order1.getVolume() < order2.getVolume();
     });
 
+    auto vanIterator = vans.begin();
+    auto orderIterator = orders.begin();
+
+    while (
+        vanIterator != vans.end() && // while we still have vans to carry orders
+        orderIterator != orders.end() // while we still have orders to process
+    ) {
+        if (!orderIterator->fitsIn(*vanIterator)) // we have exhausted the current van, move to the next one
+            vanIterator++;
+
+        vanIterator->addOrder(*orderIterator);
+    }
+
+    return dataset;
 }

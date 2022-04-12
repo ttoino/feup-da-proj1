@@ -10,6 +10,8 @@ Van::Van(int maxVol, int maxWeight, int cost)
 int Van::getMaxVolume() const { return this->maxVolume; };
 int Van::getMaxWeight() const { return this->maxWeight; };
 int Van::getCost() const { return this->cost; };
+int Van::getCurrentVolume() const { return this->currentVolume; };
+int Van::getCurrentWeight() const { return this->currentWeight; };
 
 Van Van::from(const std::vector<std::string> &tokens) {
     int maxVol = std::stoi(tokens.at(0));
@@ -44,5 +46,10 @@ std::ostream &operator<<(std::ostream &out, const Van &v) {
 }
 
 void Van::addOrder(const Order &order) {
+
+    if (!order.fitsIn(*this)) return;
+
     orders.push_back(order);
+    this->currentVolume -= order.getVolume();
+    this->currentWeight -= order.getWeight();
 }

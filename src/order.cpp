@@ -12,6 +12,10 @@ int Order::getWeight() const { return this->weight; }
 int Order::getReward() const { return this->reward; }
 int Order::getDuration() const { return this->duration; }
 
+bool Order::fitsIn(const Van &v) const {
+    return this->getVolume() <= v.getCurrentVolume() && this->getWeight() <= v.getCurrentWeight();
+}
+
 Order Order::from(const std::vector<std::string> &tokens) {
 
     int vol = std::stoi(tokens.at(0));
