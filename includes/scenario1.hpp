@@ -11,7 +11,7 @@
 
 class Simulation1 : public Simulation {
 public:
-    enum SimulationOptions { WEIGHT, VOLUME };
+    enum SimulationOptions { WEIGHT, VOLUME, AREA };
 
 private:
     SimulationOptions option;

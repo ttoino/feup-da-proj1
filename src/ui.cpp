@@ -136,6 +136,12 @@ void UserInterface::show(Dataset &dataset) {
         currentMenu = RESULTS;
         break;
     }
+    case SCENARIO_ONE_AREA: {
+        Simulation1 sim(Simulation1::AREA);
+        result = sim.run();
+        currentMenu = RESULTS;
+        break;
+    }
 
     case SCENARIO_TWO:
         // TODO: Process data and get results for scenario 2
@@ -227,15 +233,16 @@ void UserInterface::scenarioOneMenu() {
         {"Go back", CHOOSE_SCENARIO},
         {"Optimize using volume", SCENARIO_ONE_VOLUME},
         {"Optimize using weight", SCENARIO_ONE_WEIGHT},
+        {"Optimize using area",   SCENARIO_ONE_AREA},
     });
 }
 
 void UserInterface::scenarioThreeMenu() {
     optionsMenu({
-                        {"Go back", CHOOSE_SCENARIO},
-                        {"Optimize using volume", SCENARIO_THREE_VOLUME},
-                        {"Optimize using weight", SCENARIO_THREE_WEIGHT},
-                });
+        {"Go back", CHOOSE_SCENARIO},
+        {"Optimize using volume", SCENARIO_THREE_VOLUME},
+        {"Optimize using weight", SCENARIO_THREE_WEIGHT},
+    });
 }
 
 void UserInterface::resultsMenu(Dataset &dataset) {

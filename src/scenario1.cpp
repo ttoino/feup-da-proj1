@@ -46,6 +46,16 @@ SimulationResult Simulation1::run() {
                       }
                       return order1.getWeight() < order2.getWeight();
                   });
+    } else if (this->option == Simulation1::SimulationOptions::AREA) {
+        std::sort(vans.begin(), vans.end(), [](const Van &v1, const Van &v2) {
+
+            return v1.getMaxVolume()*v1.getMaxWeight() > v2.getMaxVolume()*v2.getMaxWeight();
+        });
+
+        std::sort(orders.begin(), orders.end(),
+                    [](const Order &order1, const Order &order2) {
+                        return order1.getVolume()*order1.getWeight() < order2.getVolume()*order2.getWeight();
+                    });
     } else {
         std::cerr << "Invalid option\n";
         return {};
