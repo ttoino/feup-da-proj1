@@ -219,10 +219,11 @@ void UserInterface::scenarioOneMenu() {
 
 void UserInterface::resultsMenu(Dataset &dataset) {
     std::cout << result.remainingOrders.size() << " remaining orders\n"
-              << result.vans.size() << " vans\nUsed " << result.vansUsed
-              << " vans\nDispatched " << result.ordersDispatched << " orders\n"
+              << "Used " << result.vansUsed << " vans\n"
+              << "Dispatched " << result.ordersDispatched << " orders\n"
               << result.ordersForTheDay << " orders for the day\n"
-              << result.vansForTheDay << " vans for the day\n\n";
+              << result.vansForTheDay << " vans for the day\n"
+              << "Delivery efficiency: " << std::setprecision(3) << ((result.ordersDispatched && result.ordersForTheDay) ? (result.ordersDispatched * 100 / result.ordersForTheDay) : 0) << "%\n\n";
 
     getStringInput("Press enter to continue ");
     currentMenu = MAIN;
