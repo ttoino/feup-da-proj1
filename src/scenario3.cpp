@@ -9,11 +9,11 @@ SimulationResult Simulation3::run() {
 
     std::sort(orders.begin(), orders.end(), compareOrderByDuration);
 
-    auto i = orders.begin(), end = orders.end();
+    auto i = orders.begin();
     for (; i != orders.end() && time + i->getDuration() <= max_time; ++i)
         time += i->getDuration();
 
-    remainingOrders.assign(i, end);
+    remainingOrders.assign(i, orders.end());
 
     int ordersDispatched = orders.size() - remainingOrders.size();
     return {
