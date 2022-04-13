@@ -51,12 +51,13 @@ bool Van::canFit(const Order &o) const {
            getCurrentWeight() + o.getWeight() <= getMaxWeight();
 }
 
-void Van::addOrder(const Order &order) {
+bool Van::addOrder(const Order &order) {
 
     if (!canFit(order))
-        return;
+        return false;
 
     orders.push_back(order);
     this->currentVolume += order.getVolume();
     this->currentWeight += order.getWeight();
+    return true;
 }

@@ -80,7 +80,7 @@ public:
      *
      * @param order the order to be assigned
      */
-    void addOrder(const Order &order);
+    bool addOrder(const Order &order);
 
     /**
      * @brief Checks if an order can fit in this van.

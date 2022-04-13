@@ -14,6 +14,7 @@ SimulationResult Simulation1::run() {
     int vansForTheDay = vans.size();
 
     int vansUsed = 0, ordersDispatched = 0;
+    double deliveryTime = 0.0;
 
     if (this->option == Simulation1::SimulationOptions::VOLUME) {
         std::sort(vans.begin(), vans.end(), [](const Van &v1, const Van &v2) {
@@ -65,6 +66,7 @@ SimulationResult Simulation1::run() {
         }
 
         if (vanIterator != vans.end()) {
+            deliveryTime += orderIterator->getDuration();
             vanIterator->addOrder(*orderIterator++);
             ordersDispatched++;
         }
@@ -74,6 +76,6 @@ SimulationResult Simulation1::run() {
 
     return {
         remainingOrders,  resultVans,      vansUsed,
-        ordersDispatched, ordersForTheDay, vansForTheDay,
+        ordersDispatched, ordersForTheDay, vansForTheDay, deliveryTime
     };
 }

@@ -6,6 +6,7 @@
 
 #include "../includes/constants.hpp"
 #include "../includes/scenario1.hpp"
+#include "../includes/scenario3.hpp"
 #include "../includes/simulation.hpp"
 #include "../includes/ui.hpp"
 #include "../includes/utils.hpp"
@@ -140,10 +141,12 @@ void UserInterface::show(Dataset &dataset) {
         // TODO: Process data and get results for scenario 2
         currentMenu = RESULTS;
         break;
-    case SCENARIO_THREE:
-        // TODO: Process data and get results for scenario 3
+    case SCENARIO_THREE: {
+        Simulation3 sim;
+        result = sim.run();
         currentMenu = RESULTS;
         break;
+    }
 
     case RESULTS:
         resultsMenu(dataset);
@@ -223,7 +226,8 @@ void UserInterface::resultsMenu(Dataset &dataset) {
               << "Dispatched " << result.ordersDispatched << " orders\n"
               << result.ordersForTheDay << " orders for the day\n"
               << result.vansForTheDay << " vans for the day\n"
-              << "Delivery efficiency: " << std::setprecision(3) << ((result.ordersDispatched && result.ordersForTheDay) ? (result.ordersDispatched * 100 / result.ordersForTheDay) : 0) << "%\n\n";
+              << "Delivery efficiency: " << std::setprecision(3) << ((result.ordersDispatched && result.ordersForTheDay) ? (result.ordersDispatched * 100 / result.ordersForTheDay) : 0) << "%\n"
+              << "Average delivery time : " << std::setprecision(3) <<((result.deliveryTime && result.ordersDispatched) ? (result.deliveryTime  / result.ordersDispatched) : -1)  << "\n\n";
 
     getStringInput("Press enter to continue ");
     currentMenu = MAIN;

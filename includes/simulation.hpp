@@ -17,6 +17,7 @@ struct SimulationResult {
     int ordersDispatched = 0;
     int ordersForTheDay;
     int vansForTheDay;
+    double deliveryTime;
 };
 
 /**
