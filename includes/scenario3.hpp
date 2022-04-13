@@ -3,6 +3,8 @@
 
 #include "simulation.hpp"
 #include "dataset.hpp"
+
+#include <iostream>
 #include <algorithm>
 
 class Simulation3 : public Simulation {
@@ -13,7 +15,7 @@ private:
     SimulationOptions option;
 
 public:
-    Simulation3() {};
+    Simulation3(SimulationOptions option) : option(option) {};
 
     SimulationResult run();
 };

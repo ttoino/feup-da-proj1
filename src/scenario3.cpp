@@ -16,12 +16,24 @@ SimulationResult Simulation3::run() {
         return o1.getDuration() < o2.getDuration();
     });
 
-    std::sort(vans.begin(), vans.end(), [] (const Van &v1, const Van &v2) {
-        if(v1.getMaxVolume() == v2.getMaxVolume()) {
+    if(this->option == Simulation3::SimulationOptions::VOLUME) {
+        std::sort(vans.begin(), vans.end(), [] (const Van &v1, const Van &v2) {
+            if(v1.getMaxVolume() == v2.getMaxVolume()) {
+                return v1.getMaxWeight() > v2.getMaxWeight();
+            }
+            return v1.getMaxVolume() > v2.getMaxVolume();
+        });
+    } else if (this->option == Simulation3::SimulationOptions::WEIGHT) {
+        std::sort(vans.begin(), vans.end(), [] (const Van &v1, const Van &v2) {
+            if(v1.getMaxWeight() == v2.getMaxWeight()) {
+                return v1.getMaxVolume() > v2.getMaxVolume();
+            }
             return v1.getMaxWeight() > v2.getMaxWeight();
-        }
-        return v1.getMaxVolume() > v2.getMaxVolume();
-    });
+        });
+    } else {
+        std::cerr << "Invalid option\n";
+        return {};
+    }
 
     auto orderIterator = orders.begin();
     auto vanIterator = vans.begin();

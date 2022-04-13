@@ -37,7 +37,10 @@ enum Menu {
     SCENARIO_ONE_WEIGHT,
 
     SCENARIO_TWO,
+
     SCENARIO_THREE,
+    SCENARIO_THREE_VOLUME,
+    SCENARIO_THREE_WEIGHT,
 
     RESULTS,
 
@@ -162,6 +165,8 @@ class UserInterface {
     void chooseScenarioMenu();
 
     void scenarioOneMenu();
+
+    void scenarioThreeMenu();
 
     void resultsMenu(Dataset &dataset);
 

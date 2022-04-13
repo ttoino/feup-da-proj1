@@ -141,8 +141,18 @@ void UserInterface::show(Dataset &dataset) {
         // TODO: Process data and get results for scenario 2
         currentMenu = RESULTS;
         break;
-    case SCENARIO_THREE: {
-        Simulation3 sim;
+
+    case SCENARIO_THREE:
+        scenarioThreeMenu();
+        break;
+    case SCENARIO_THREE_VOLUME: {
+        Simulation3 sim(Simulation3::VOLUME);
+        result = sim.run();
+        currentMenu = RESULTS;
+        break;
+    }
+    case SCENARIO_THREE_WEIGHT: {
+        Simulation3 sim(Simulation3::WEIGHT);
         result = sim.run();
         currentMenu = RESULTS;
         break;
@@ -218,6 +228,14 @@ void UserInterface::scenarioOneMenu() {
         {"Optimize using volume", SCENARIO_ONE_VOLUME},
         {"Optimize using weight", SCENARIO_ONE_WEIGHT},
     });
+}
+
+void UserInterface::scenarioThreeMenu() {
+    optionsMenu({
+                        {"Go back", CHOOSE_SCENARIO},
+                        {"Optimize using volume", SCENARIO_THREE_VOLUME},
+                        {"Optimize using weight", SCENARIO_THREE_WEIGHT},
+                });
 }
 
 void UserInterface::resultsMenu(Dataset &dataset) {

@@ -79,6 +79,8 @@ public:
      * @brief assigns an order to a van
      *
      * @param order the order to be assigned
+     *
+     * @return true if successfully, false otherwise
      */
     bool addOrder(const Order &order);
 
