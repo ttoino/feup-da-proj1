@@ -80,7 +80,7 @@ std::string UserInterface::getStringInput(const std::string &prompt) {
     normalizeInput(input);
 
     if (std::cin.eof())
-        exit();
+        throw Exit();
 
     return input;
 }

@@ -4,64 +4,20 @@ SimulationResult Simulation3::run() {
     Dataset dataset = Dataset::load();
 
     std::vector<Order> orders = dataset.getOrders(), remainingOrders = {};
-    std::vector<Van> vans = dataset.getVans(), resultVans = {};
 
-    int ordersForTheDay = orders.size();
-    int vansForTheDay = vans.size();
+    double time = 0, max_time = 8 * 3600;
 
-    int vansUsed = 0, ordersDispatched = 0;
-    double deliveryTime = 0.0;
+    std::sort(orders.begin(), orders.end(), compareOrderByDuration);
 
-    std::sort(orders.begin(), orders.end(), [] (const Order &o1, const Order &o2) {
-        return o1.getDuration() < o2.getDuration();
-    });
+    auto i = orders.begin(), end = orders.end();
+    for (; i != orders.end() && time + i->getDuration() <= max_time; ++i)
+        time += i->getDuration();
 
-    if(this->option == Simulation3::SimulationOptions::VOLUME) {
-        std::sort(vans.begin(), vans.end(), [] (const Van &v1, const Van &v2) {
-            if(v1.getMaxVolume() == v2.getMaxVolume()) {
-                return v1.getMaxWeight() > v2.getMaxWeight();
-            }
-            return v1.getMaxVolume() > v2.getMaxVolume();
-        });
-    } else if (this->option == Simulation3::SimulationOptions::WEIGHT) {
-        std::sort(vans.begin(), vans.end(), [] (const Van &v1, const Van &v2) {
-            if(v1.getMaxWeight() == v2.getMaxWeight()) {
-                return v1.getMaxVolume() > v2.getMaxVolume();
-            }
-            return v1.getMaxWeight() > v2.getMaxWeight();
-        });
-    } else {
-        std::cerr << "Invalid option\n";
-        return {};
-    }
+    remainingOrders.assign(i, end);
 
-    auto orderIterator = orders.begin();
-    auto vanIterator = vans.begin();
-
-    while(
-            vanIterator != vans.end() &&
-            orderIterator != orders.end()
-    ) {
-        if(!vanIterator->canFit(*orderIterator)) {
-            resultVans.push_back(*vanIterator);
-            vanIterator++;
-            vansUsed++;
-        }
-
-        if(vanIterator != vans.end()) {
-            if(vanIterator->addOrder(*orderIterator)) {
-                ordersDispatched++;
-                deliveryTime += orderIterator->getDuration();
-                orderIterator++;
-            }
-
-        }
-    }
-
-    remainingOrders.assign(orderIterator, orders.end());
-
+    int ordersDispatched = orders.size() - remainingOrders.size();
     return {
-        remainingOrders,    resultVans,    vansUsed,
-        ordersDispatched,   ordersForTheDay,    vansForTheDay, deliveryTime
+        remainingOrders,         {}, 1, ordersDispatched, orders.size(), 1,
+        time / ordersDispatched,
     };
 }
