@@ -94,4 +94,8 @@ public:
     friend std::ostream &operator<<(std::ostream &, const Van &);
 };
 
+bool compareVanByVolume(const Van &v1, const Van &v2);
+bool compareVanByWeight(const Van &v1, const Van &v2);
+bool compareVanByArea(const Van &v1, const Van &v2);
+
 #endif

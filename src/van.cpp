@@ -61,3 +61,22 @@ bool Van::addOrder(const Order &order) {
     this->currentWeight += order.getWeight();
     return true;
 }
+
+bool compareVanByVolume(const Van &v1, const Van &v2) {
+    if (v1.getMaxVolume() == v2.getMaxVolume()) {
+        return v1.getMaxWeight() > v2.getMaxWeight();
+    }
+    return v1.getMaxVolume() > v2.getMaxVolume();
+}
+
+bool compareVanByWeight(const Van &v1, const Van &v2) {
+    if (v1.getMaxWeight() == v2.getMaxWeight()) {
+        return v1.getMaxVolume() > v2.getMaxVolume();
+    }
+    return v1.getMaxWeight() > v2.getMaxWeight();
+}
+
+bool compareVanByArea(const Van &v1, const Van &v2) {
+    return v1.getMaxVolume() * v1.getMaxWeight() >
+           v2.getMaxVolume() * v2.getMaxWeight();
+}

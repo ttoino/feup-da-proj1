@@ -17,45 +17,14 @@ SimulationResult Simulation1::run() {
     double deliveryTime = 0.0;
 
     if (this->option == Simulation1::SimulationOptions::VOLUME) {
-        std::sort(vans.begin(), vans.end(), [](const Van &v1, const Van &v2) {
-            if (v1.getMaxWeight() == v2.getMaxWeight()) {
-                return v1.getMaxWeight() > v2.getMaxWeight();
-            }
-            return v1.getMaxVolume() > v2.getMaxVolume();
-        });
-
-        std::sort(orders.begin(), orders.end(),
-                  [](const Order &order1, const Order &order2) {
-                      if (order1.getVolume() == order2.getVolume()) {
-                          return order1.getWeight() < order2.getWeight();
-                      }
-                      return order1.getVolume() < order2.getVolume();
-                  });
+        std::sort(vans.begin(), vans.end(), compareVanByVolume);
+        std::sort(orders.begin(), orders.end(), compareOrderByVolume);
     } else if (this->option == Simulation1::SimulationOptions::WEIGHT) {
-        std::sort(vans.begin(), vans.end(), [](const Van &v1, const Van &v2) {
-            if (v1.getMaxVolume() == v2.getMaxVolume()) {
-                return v1.getMaxVolume() > v2.getMaxVolume();
-            }
-            return v1.getMaxWeight() > v2.getMaxWeight();
-        });
-
-        std::sort(orders.begin(), orders.end(),
-                  [](const Order &order1, const Order &order2) {
-                      if (order1.getWeight() == order2.getWeight()) {
-                          return order1.getVolume() < order2.getVolume();
-                      }
-                      return order1.getWeight() < order2.getWeight();
-                  });
+        std::sort(vans.begin(), vans.end(), compareVanByWeight);
+        std::sort(orders.begin(), orders.end(), compareOrderByWeight);
     } else if (this->option == Simulation1::SimulationOptions::AREA) {
-        std::sort(vans.begin(), vans.end(), [](const Van &v1, const Van &v2) {
-
-            return v1.getMaxVolume()*v1.getMaxWeight() > v2.getMaxVolume()*v2.getMaxWeight();
-        });
-
-        std::sort(orders.begin(), orders.end(),
-                    [](const Order &order1, const Order &order2) {
-                        return order1.getVolume()*order1.getWeight() < order2.getVolume()*order2.getWeight();
-                    });
+        std::sort(vans.begin(), vans.end(), compareVanByArea);
+        std::sort(orders.begin(), orders.end(), compareOrderByArea);
     } else {
         std::cerr << "Invalid option\n";
         return {};
@@ -84,8 +53,6 @@ SimulationResult Simulation1::run() {
 
     remainingOrders.assign(orderIterator, orders.end());
 
-    return {
-        remainingOrders,  resultVans,      vansUsed,
-        ordersDispatched, ordersForTheDay, vansForTheDay, deliveryTime
-    };
+    return {remainingOrders, resultVans,    vansUsed,    ordersDispatched,
+            ordersForTheDay, vansForTheDay, deliveryTime};
 }

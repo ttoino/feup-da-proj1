@@ -233,7 +233,7 @@ void UserInterface::scenarioOneMenu() {
         {"Go back", CHOOSE_SCENARIO},
         {"Optimize using volume", SCENARIO_ONE_VOLUME},
         {"Optimize using weight", SCENARIO_ONE_WEIGHT},
-        {"Optimize using area",   SCENARIO_ONE_AREA},
+        {"Optimize using area", SCENARIO_ONE_AREA},
     });
 }
 
@@ -251,8 +251,16 @@ void UserInterface::resultsMenu(Dataset &dataset) {
               << "Dispatched " << result.ordersDispatched << " orders\n"
               << result.ordersForTheDay << " orders for the day\n"
               << result.vansForTheDay << " vans for the day\n"
-              << "Delivery efficiency: " << std::setprecision(3) << ((result.ordersDispatched && result.ordersForTheDay) ? (result.ordersDispatched * 100 / result.ordersForTheDay) : 0) << "%\n"
-              << "Average delivery time : " << std::setprecision(3) <<((result.deliveryTime && result.ordersDispatched) ? (result.deliveryTime  / result.ordersDispatched) : -1)  << "\n\n";
+              << "Delivery efficiency: " << std::setprecision(3)
+              << ((result.ordersDispatched && result.ordersForTheDay)
+                      ? (result.ordersDispatched * 100 / result.ordersForTheDay)
+                      : 0)
+              << "%\n"
+              << "Average delivery time : " << std::setprecision(3)
+              << ((result.deliveryTime && result.ordersDispatched)
+                      ? (result.deliveryTime / result.ordersDispatched)
+                      : -1)
+              << "\n\n";
 
     getStringInput("Press enter to continue ");
     currentMenu = MAIN;
