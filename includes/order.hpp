@@ -76,5 +76,7 @@ bool compareOrderByVolume(const Order &o1, const Order &o2);
 bool compareOrderByWeight(const Order &o1, const Order &o2);
 bool compareOrderByArea(const Order &o1, const Order &o2);
 bool compareOrderByDuration(const Order &o1, const Order &o2);
+bool compareOrderByRewardDivision(const Order &o1, const Order &o2);
+bool compareOrderByRewardMult(const Order &o1, const Order &o2);
 
 #endif

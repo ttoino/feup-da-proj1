@@ -97,5 +97,7 @@ public:
 bool compareVanByVolume(const Van &v1, const Van &v2);
 bool compareVanByWeight(const Van &v1, const Van &v2);
 bool compareVanByArea(const Van &v1, const Van &v2);
+bool compareVanByCostDivision(const Van &v1, const Van &v2);
+bool compareVanByCostMult(const Van &v1, const Van &v2);
 
 #endif

@@ -80,3 +80,13 @@ bool compareVanByArea(const Van &v1, const Van &v2) {
     return v1.getMaxVolume() * v1.getMaxWeight() >
            v2.getMaxVolume() * v2.getMaxWeight();
 }
+
+bool compareVanByCostDivision(const Van &v1, const Van &v2) {
+    return ((v1.getMaxVolume() * v1.getMaxVolume()) / v1.getCost()) >
+            ((v2.getMaxVolume() * v2.getMaxWeight()) / v2.getCost());
+}
+
+bool compareVanByCostMult(const Van &v1, const Van &v2) {
+    return v1.getMaxWeight() * v1.getMaxVolume() * v1.getCost() <
+            v2.getMaxVolume() * v2.getMaxWeight() * v2.getCost();
+}

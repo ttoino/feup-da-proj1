@@ -11,7 +11,7 @@ add_executable(da_proj1
                src/utils.cpp
                src/van.cpp
                src/order.cpp
-               src/dataset.cpp src/scenario1.cpp includes/scenario1.hpp includes/scenario3.hpp src/scenario3.cpp)
+               src/dataset.cpp src/scenario1.cpp includes/scenario1.hpp includes/scenario3.hpp src/scenario3.cpp includes/scenario2.hpp src/scenario2.cpp)
 
 add_executable(da_proj1_no_ansi
                 src/main.cpp
@@ -19,7 +19,7 @@ add_executable(da_proj1_no_ansi
                 src/utils.cpp
                 src/van.cpp
                 src/order.cpp
-                src/dataset.cpp src/scenario1.cpp includes/scenario1.hpp includes/scenario3.hpp src/scenario3.cpp)
+                src/dataset.cpp src/scenario1.cpp includes/scenario1.hpp includes/scenario3.hpp src/scenario3.cpp includes/scenario2.hpp src/scenario2.cpp)
 target_compile_definitions(da_proj1_no_ansi PUBLIC NO_ANSI)
 
 include_directories(da_proj1 includes/)

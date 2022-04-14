@@ -18,6 +18,8 @@ struct SimulationResult {
     int ordersForTheDay;
     int vansForTheDay;
     double deliveryTime;
+    int cost;
+    int reward;
 };
 
 /**

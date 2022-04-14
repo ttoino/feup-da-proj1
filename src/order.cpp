@@ -68,3 +68,13 @@ bool compareOrderByArea(const Order &o1, const Order &o2) {
 bool compareOrderByDuration(const Order &o1, const Order &o2) {
     return o1.getDuration() < o2.getDuration();
 }
+
+bool compareOrderByRewardDivision(const Order &o1, const Order &o2) {
+    return ((o1.getVolume() * o1.getWeight()) / o1.getReward() <
+            (o2.getVolume() * o2.getWeight()) / o2.getReward());
+}
+
+bool compareOrderByRewardMult(const Order &o1, const Order &o2) {
+    return o1.getWeight() * o1.getVolume() * o1.getReward() >
+            o2.getVolume() * o2.getWeight() * o2.getReward();
+}

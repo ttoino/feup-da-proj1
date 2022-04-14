@@ -38,6 +38,8 @@ enum Menu {
     SCENARIO_ONE_AREA,
 
     SCENARIO_TWO,
+    SCENARIO_TWO_DIVIDE,
+    SCENARIO_TWO_MULTIPLY,
 
     SCENARIO_THREE,
     SCENARIO_THREE_VOLUME,
@@ -166,6 +168,8 @@ class UserInterface {
     void chooseScenarioMenu();
 
     void scenarioOneMenu();
+
+    void scenarioTwoMenu();
 
     void scenarioThreeMenu();
 

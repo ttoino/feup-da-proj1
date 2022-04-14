@@ -6,6 +6,7 @@
 
 #include "../includes/constants.hpp"
 #include "../includes/scenario1.hpp"
+#include "../includes/scenario2.hpp"
 #include "../includes/scenario3.hpp"
 #include "../includes/simulation.hpp"
 #include "../includes/ui.hpp"
@@ -143,10 +144,24 @@ void UserInterface::show(Dataset &dataset) {
         break;
     }
 
-    case SCENARIO_TWO:
-        // TODO: Process data and get results for scenario 2
+    case SCENARIO_TWO: {
+        scenarioTwoMenu();
+        break;
+    }
+
+    case SCENARIO_TWO_MULTIPLY: {
+        Simulation2 sim(Simulation2::MULTIPLY);
+        result = sim.run();
         currentMenu = RESULTS;
         break;
+    }
+
+    case SCENARIO_TWO_DIVIDE: {
+        Simulation2 sim(Simulation2::DIVIDE);
+        result = sim.run();
+        currentMenu = RESULTS;
+        break;
+    }
 
     case SCENARIO_THREE:
         scenarioThreeMenu();
@@ -237,6 +252,14 @@ void UserInterface::scenarioOneMenu() {
     });
 }
 
+void UserInterface::scenarioTwoMenu() {
+    optionsMenu({
+        {"Go back", CHOOSE_SCENARIO},
+        {"Optimize using division", SCENARIO_TWO_DIVIDE},
+        {"Optimize using multiplication", SCENARIO_TWO_MULTIPLY},
+    });
+}
+
 void UserInterface::scenarioThreeMenu() {
     optionsMenu({
         {"Go back", CHOOSE_SCENARIO},
@@ -260,6 +283,9 @@ void UserInterface::resultsMenu(Dataset &dataset) {
               << ((result.deliveryTime && result.ordersDispatched)
                       ? (result.deliveryTime / result.ordersDispatched)
                       : -1)
+              << "\n"
+              << "Profit : " << ((result.cost && result.reward)
+                ? (result.reward - result.cost) : -1)
               << "\n\n";
 
     getStringInput("Press enter to continue ");
