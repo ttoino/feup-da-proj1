@@ -69,8 +69,8 @@ SimulationResult Simulation2::run2DVSBPP() {
      * Space complexity: O(1)
      *
      * Time complexity:
-     * - Best case: O(|O|) -> if the first bin in the vector can contain every order individually
-     * - Worst case: O(|O|*|V|) -> if the last bin in the vector can contain every order individually
+     * - Best case: O(|O|) -> if the first bin in the vector can contain every item individually
+     * - Worst case: O(|O|*|V|) -> if the last bin in the vector can contain every item individually
      */
     for (const Order &order : orders) {
 
@@ -90,7 +90,7 @@ SimulationResult Simulation2::run2DVSBPP() {
     /*
      * Eliminate dominated bins.
      * 
-     * Space complexity: O(|O|) -> creation of a linked list to perform the algorithm.
+     * Space complexity: O(|V|) -> creation of a linked list to perform the algorithm.
      * 
      * Time complexity:
      * - Best case: O(|V|) -> if only the first bin is fit for the simulation
@@ -101,9 +101,20 @@ SimulationResult Simulation2::run2DVSBPP() {
     std::list<Van> vanList(vans.begin(), vans.end()); // Space Complexity: O(|O|)
     auto van1 = vanList.begin(), van2 = vanList.begin();
 
+    /* 
+     * Use this here to avoid writing another loop, 
+     * we can do this since the bin removal only removes lower valued bins, 
+     * so the maximum values should be kept
+     */
+    int maxVol = INT32_MIN, maxWeight = INT32_MIN; 
+
     while (van1 != vanList.end()) {
 
         if (van1 == van2) continue;
+
+        // These 2 lines are not related to the bin removal algorithm but can save us some iterations later on
+        if (maxVol < van1->getMaxVolume()) maxVol = van1->getMaxVolume();
+        if (maxWeight < van1->getMaxWeight()) maxWeight = van1->getMaxWeight();
 
         if (
             van2->getCost()      >= van1->getCost()      &&
@@ -125,6 +136,8 @@ SimulationResult Simulation2::run2DVSBPP() {
 
     bool left[orders.size()][orders.size()]; // Space complexity: O(|O|²)
     bool below[orders.size()][orders.size()]; // Space complexity: O(|O|²)
-    bool located[orders.size()][vans.size()]; // Space complexity: O(|O|*|V|)
-    bool used[vans.size()]; // Space complexity: O(|V|)
+    bool located[orders.size()][vans.size()]; // Space complexity: O(|O|*|V'|)
+    bool used[vans.size()]; // Space complexity: O(|V'|)
+
+
 }
