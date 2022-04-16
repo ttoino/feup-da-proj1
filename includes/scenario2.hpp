@@ -27,6 +27,8 @@ public:
      * @note the orders are sorted by <option> in ascending order
      */
     SimulationResult run();
+
+    SimulationResult run2DVSBPP();
 };
 
 
