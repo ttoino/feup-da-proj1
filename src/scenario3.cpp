@@ -11,7 +11,7 @@ SimulationResult Simulation3::run() {
 
     auto i = orders.begin();
     for (; i != orders.end() && time + i->getDuration() <= max_time; ++i)
-        time += i->getDuration();
+        time += time + i->getDuration();
 
     remainingOrders.assign(i, orders.end());
 

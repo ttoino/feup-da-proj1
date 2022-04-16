@@ -139,5 +139,5 @@ SimulationResult Simulation2::run2DVSBPP() {
     bool located[orders.size()][vans.size()]; // Space complexity: O(|O|*|V'|)
     bool used[vans.size()]; // Space complexity: O(|V'|)
 
-
+    return {};
 }
