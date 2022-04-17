@@ -13,7 +13,9 @@ class Van;
  */
 class Order {
 
-    int volume, weight, reward, duration;
+    static int GLOBAL_ID;
+
+    int volume, weight, reward, duration, id;
 
 public:
     /**

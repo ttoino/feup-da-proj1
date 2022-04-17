@@ -58,6 +58,10 @@ SimulationResult Simulation2::run() {
 
 SimulationResult Simulation2::run2DVSBPP() {
 
+    /*
+     * All the code written below is based on the article found at https://www.sciencedirect.com/science/article/pii/S1572528605000216#sec5
+     */
+
     Dataset dataset = Dataset::load();
 
     std::vector<Order> orders = dataset.getOrders();
@@ -82,9 +86,7 @@ SimulationResult Simulation2::run2DVSBPP() {
                 break;
             }
 
-        if (!canFit) { // no solution
-            return {};
-        }
+        if (!canFit) return {}; // no solution
     }
 
     /*

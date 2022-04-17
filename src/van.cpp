@@ -4,9 +4,11 @@
 #include "../includes/utils.hpp"
 #include "../includes/van.hpp"
 
+int Van::GLOBAL_ID = 1;
+
 Van::Van(int maxVol, int maxWeight, int cost)
     : maxVolume(maxVol), currentVolume(0), maxWeight(maxWeight),
-      currentWeight(0), cost(cost){};
+      currentWeight(0), cost(cost), id(Van::GLOBAL_ID++) {};
 
 int Van::getMaxVolume() const { return this->maxVolume; };
 int Van::getMaxWeight() const { return this->maxWeight; };
@@ -41,7 +43,7 @@ std::vector<Van> Van::processDataset() {
 }
 
 std::ostream &operator<<(std::ostream &out, const Van &v) {
-    out << v.getMaxVolume() << '\t' << v.getMaxWeight() << '\t' << v.getCost();
+    out << v.id << ' ' << v.getMaxVolume() << '\t' << v.getMaxWeight() << '\t' << v.getCost();
 
     return out;
 }

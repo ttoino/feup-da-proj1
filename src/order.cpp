@@ -4,8 +4,10 @@
 #include "../includes/order.hpp"
 #include "../includes/utils.hpp"
 
+int Order::GLOBAL_ID = 1;
+
 Order::Order(int vol, int weight, int reward, int duration)
-    : volume(vol), weight(weight), reward(reward), duration(duration){};
+    : volume(vol), weight(weight), reward(reward), duration(duration), id(GLOBAL_ID++) {};
 
 int Order::getVolume() const { return this->volume; }
 int Order::getWeight() const { return this->weight; }
@@ -41,7 +43,7 @@ std::vector<Order> Order::processDataset() {
 }
 
 std::ostream &operator<<(std::ostream &out, const Order &o) {
-    out << o.getVolume() << '\t' << o.getWeight() << '\t' << o.getReward()
+    out << o.id << ' ' << o.getVolume() << '\t' << o.getWeight() << '\t' << o.getReward()
         << '\t' << o.getDuration();
 
     return out;

@@ -12,7 +12,9 @@ class Order;
  */
 class Van {
 
-    int maxVolume, maxWeight, cost, currentVolume, currentWeight;
+    static int GLOBAL_ID;
+
+    int maxVolume, maxWeight, cost, currentVolume, currentWeight, id;
     std::vector<Order> orders;
 
 public:
