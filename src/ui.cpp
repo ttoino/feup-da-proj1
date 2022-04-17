@@ -288,6 +288,10 @@ void UserInterface::resultsMenu(Dataset &dataset) {
                 ? (result.reward - result.cost) : -1)
               << "\n\n";
 
+    if (result.vans.size())
+        for (auto &van : result.vans)
+            van.printStatistics(std::cout);
+
     getStringInput("Press enter to continue ");
     currentMenu = MAIN;
 }

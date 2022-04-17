@@ -93,6 +93,13 @@ public:
      */
     bool canFit(const Order &order) const;
 
+    /**
+     * @brief Prints statistics about this van.
+     * 
+     * @param out the output stream to write the statistics to
+     */
+    void printStatistics(std::ostream& out) const;
+
     friend std::ostream &operator<<(std::ostream &, const Van &);
 };
 

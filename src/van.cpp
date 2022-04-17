@@ -1,4 +1,5 @@
 #include <fstream>
+#include <numeric>
 
 #include "../includes/constants.hpp"
 #include "../includes/utils.hpp"
@@ -63,6 +64,39 @@ bool Van::addOrder(const Order &order) {
     this->currentWeight += order.getWeight();
     return true;
 }
+
+void Van::printStatistics(std::ostream &out) const {
+
+    out << "Van with id=" << this->id << ": \n";
+
+    out << "\tVolume: " << this->getMaxVolume() << "\n\tWeight: " << this->getMaxWeight() << "\n\n";
+
+    int totalWeight = std::accumulate(
+                        this->orders.begin(), 
+                        this->orders.end(),
+                        static_cast<int>(0), // to ensure result is an integer value
+                        [](int accum, const Order &order) -> int { return accum + order.getWeight(); }
+                    );
+    int totalVolume = std::accumulate(
+                        this->orders.begin(), 
+                        this->orders.end(),
+                        static_cast<int>(0), // to ensure result is an integer value
+                        [](int accum, const Order &order) -> int { return accum + order.getVolume(); }
+                    );
+    int totalReward = std::accumulate(
+                        this->orders.begin(), 
+                        this->orders.end(),
+                        static_cast<int>(0), // to ensure result is an integer value
+                        [](int accum, const Order &order) -> int { return accum + order.getReward(); }
+                    );
+
+    out << "\t- Carries " << this->orders.size() << " orders, totaling:" << "\n";
+    out << "\t\t- Volume: " << totalVolume << ", volume efficiency: " << (totalVolume * 100.0f / this->getMaxVolume()) << "%\n";
+    out << "\t\t- Weight: " << totalWeight << ", weight efficiency: " << (totalWeight * 100.0f / this->getMaxWeight()) << "%\n";
+    out << "\t\t- Total order reward: " << totalReward << ", transportation cost: " << this->getCost() << ", profit: " << (totalReward - this->getCost()) << '\n';
+    
+    out << '\n';
+};
 
 bool compareVanByVolume(const Van &v1, const Van &v2) {
     if (v1.getMaxVolume() == v2.getMaxVolume()) {
