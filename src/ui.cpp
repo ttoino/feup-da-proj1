@@ -216,9 +216,9 @@ void UserInterface::paginatedMenu(const std::vector<T> &items) {
         std::cout << *i << std::endl;
 
     std::cout << "\nPage " << page + 1 << " of " << pages;
-    getStringInput("\nPress enter for next page ");
+    auto option = getStringInput("\nPress enter for next page, or 'q' to exit paginated view");
 
-    if (++page == pages) {
+    if ((option.size() == 1 && tolower(option.at(0)) == 'q') || (++page == pages)) {
         currentMenu = MAIN;
         page = 0;
     }
