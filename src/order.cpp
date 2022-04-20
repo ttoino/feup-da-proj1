@@ -48,34 +48,52 @@ std::ostream &operator<<(std::ostream &out, const Order &o) {
     return out;
 }
 
-bool compareOrderByVolume(const Order &o1, const Order &o2) {
+bool Order::compareByVolumeAsc(const Order &o1, const Order &o2) {
     if (o1.getVolume() == o2.getVolume()) {
         return o1.getWeight() < o2.getWeight();
     }
     return o1.getVolume() < o2.getVolume();
 }
 
-bool compareOrderByWeight(const Order &o1, const Order &o2) {
+bool Order::compareByVolumeDesc(const Order &o1, const Order &o2) {
+    if (o1.getVolume() == o2.getVolume()) {
+        return o1.getWeight() > o2.getWeight();
+    }
+    return o1.getVolume() > o2.getVolume();
+}
+
+bool Order::compareByWeightAsc(const Order &o1, const Order &o2) {
     if (o1.getWeight() == o2.getWeight()) {
         return o1.getVolume() < o2.getVolume();
     }
     return o1.getWeight() < o2.getWeight();
 }
 
-bool compareOrderByArea(const Order &o1, const Order &o2) {
+bool Order::compareByWeightDesc(const Order &o1, const Order &o2) {
+    if (o1.getWeight() == o2.getWeight()) {
+        return o1.getVolume() > o2.getVolume();
+    }
+    return o1.getWeight() > o2.getWeight();
+}
+
+bool Order::compareByAreaAsc(const Order &o1, const Order &o2) {
     return o1.getVolume() * o1.getWeight() < o2.getVolume() * o2.getWeight();
 }
 
-bool compareOrderByDuration(const Order &o1, const Order &o2) {
+bool Order::compareByAreaDesc(const Order &o1, const Order &o2) {
+    return o1.getVolume() * o1.getWeight() > o2.getVolume() * o2.getWeight();
+}
+
+bool Order::compareByDuration(const Order &o1, const Order &o2) {
     return o1.getDuration() < o2.getDuration();
 }
 
-bool compareOrderByRewardDivision(const Order &o1, const Order &o2) {
+bool Order::compareByRewardDivision(const Order &o1, const Order &o2) {
     return ((o1.getVolume() * o1.getWeight()) / o1.getReward() <
             (o2.getVolume() * o2.getWeight()) / o2.getReward());
 }
 
-bool compareOrderByRewardMult(const Order &o1, const Order &o2) {
+bool Order::compareByRewardMult(const Order &o1, const Order &o2) {
     return o1.getWeight() * o1.getVolume() * o1.getReward() >
            o2.getVolume() * o2.getWeight() * o2.getReward();
 }

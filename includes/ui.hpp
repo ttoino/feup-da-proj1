@@ -6,11 +6,13 @@ class UserInterface;
 #include <functional>
 #include <limits>
 #include <map>
+#include <optional>
 #include <string>
 #include <vector>
 
-#include "../includes/dataset.hpp"
-#include "../includes/simulation.hpp"
+#include "dataset.hpp"
+// #include "../includes/simulation.hpp"
+#include "scenarios.hpp"
 
 /**
  * @brief Holds the possible menu values.
@@ -36,17 +38,8 @@ enum Menu {
     CHOOSE_DATASET,
 
     SCENARIO_ONE,
-    SCENARIO_ONE_VOLUME,
-    SCENARIO_ONE_WEIGHT,
-    SCENARIO_ONE_AREA,
-
     SCENARIO_TWO,
-    SCENARIO_TWO_DIVIDE,
-    SCENARIO_TWO_MULTIPLY,
-
     SCENARIO_THREE,
-    SCENARIO_THREE_VOLUME,
-    SCENARIO_THREE_WEIGHT,
 
     RESULTS,
     RESULTS_VANS,
@@ -62,7 +55,8 @@ enum Menu {
  *        application.
  */
 class UserInterface {
-    using options_t = std::vector<std::pair<const std::string, Menu>>;
+    template <class T>
+    using Options = std::vector<std::pair<const std::string, T>>;
 
     /**
      * @brief Specifies which menu to show.
@@ -75,9 +69,10 @@ class UserInterface {
     std::string errorMessage{};
 
     // TODO: Documentation
-    SimulationResult result{};
+    SimulationResult result{{}, {}};
     std::string dataset{"default"};
 
+    // TODO: Rewrite this
     /**
      * @brief Helper method to show a menu with options.
      *
@@ -90,7 +85,7 @@ class UserInterface {
      *
      * @param options The list of options to show
      */
-    void optionsMenu(const options_t &options);
+    template <class T> std::optional<T> optionsMenu(const Options<T> &options);
 
     /**
      * @brief Tries to transform a string into an unsigned integer, displaying
@@ -176,15 +171,17 @@ class UserInterface {
 
     void chooseDatasetMenu(std::map<std::string, Dataset> &datasets);
 
-    void scenarioOneMenu();
+    void scenarioOneMenu(std::map<std::string, Dataset> &datasets);
 
-    void scenarioTwoMenu();
+    void scenarioTwoMenu(std::map<std::string, Dataset> &datasets);
 
-    void scenarioThreeMenu();
+    void scenarioThreeMenu(std::map<std::string, Dataset> &datasets);
 
     void resultsMenu(std::map<std::string, Dataset> &datasets);
 
     void resultsVansMenu();
+
+    const Dataset &getDataset(std::map<std::string, Dataset> &datasets);
 
 public:
     /**

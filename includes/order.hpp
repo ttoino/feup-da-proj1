@@ -72,13 +72,16 @@ public:
     static std::vector<Order> processDataset(const std::string &path);
 
     friend std::ostream &operator<<(std::ostream &, const Order &);
-};
 
-bool compareOrderByVolume(const Order &o1, const Order &o2);
-bool compareOrderByWeight(const Order &o1, const Order &o2);
-bool compareOrderByArea(const Order &o1, const Order &o2);
-bool compareOrderByDuration(const Order &o1, const Order &o2);
-bool compareOrderByRewardDivision(const Order &o1, const Order &o2);
-bool compareOrderByRewardMult(const Order &o1, const Order &o2);
+    static bool compareByVolumeAsc(const Order &o1, const Order &o2);
+    static bool compareByVolumeDesc(const Order &o1, const Order &o2);
+    static bool compareByWeightAsc(const Order &o1, const Order &o2);
+    static bool compareByWeightDesc(const Order &o1, const Order &o2);
+    static bool compareByAreaAsc(const Order &o1, const Order &o2);
+    static bool compareByAreaDesc(const Order &o1, const Order &o2);
+    static bool compareByDuration(const Order &o1, const Order &o2);
+    static bool compareByRewardDivision(const Order &o1, const Order &o2);
+    static bool compareByRewardMult(const Order &o1, const Order &o2);
+};
 
 #endif

@@ -16,6 +16,7 @@ int Van::getMaxWeight() const { return this->maxWeight; };
 int Van::getCost() const { return this->cost; };
 int Van::getCurrentVolume() const { return this->currentVolume; };
 int Van::getCurrentWeight() const { return this->currentWeight; };
+std::vector<Order> Van::getOrders() const { return this->orders; };
 
 Van Van::from(const std::vector<std::string> &tokens) {
     int maxVol = std::stoi(tokens.at(0));
@@ -111,31 +112,31 @@ void Van::printStatistics(std::ostream &out) const {
     out << '\n';
 };
 
-bool compareVanByVolume(const Van &v1, const Van &v2) {
+bool Van::compareByVolume(const Van &v1, const Van &v2) {
     if (v1.getMaxVolume() == v2.getMaxVolume()) {
         return v1.getMaxWeight() > v2.getMaxWeight();
     }
     return v1.getMaxVolume() > v2.getMaxVolume();
 }
 
-bool compareVanByWeight(const Van &v1, const Van &v2) {
+bool Van::compareByWeight(const Van &v1, const Van &v2) {
     if (v1.getMaxWeight() == v2.getMaxWeight()) {
         return v1.getMaxVolume() > v2.getMaxVolume();
     }
     return v1.getMaxWeight() > v2.getMaxWeight();
 }
 
-bool compareVanByArea(const Van &v1, const Van &v2) {
+bool Van::compareByArea(const Van &v1, const Van &v2) {
     return v1.getMaxVolume() * v1.getMaxWeight() >
            v2.getMaxVolume() * v2.getMaxWeight();
 }
 
-bool compareVanByCostDivision(const Van &v1, const Van &v2) {
+bool Van::compareByCostDivision(const Van &v1, const Van &v2) {
     return ((v1.getMaxVolume() * v1.getMaxVolume()) / v1.getCost()) >
            ((v2.getMaxVolume() * v2.getMaxWeight()) / v2.getCost());
 }
 
-bool compareVanByCostMult(const Van &v1, const Van &v2) {
+bool Van::compareByCostMult(const Van &v1, const Van &v2) {
     return v1.getMaxWeight() * v1.getMaxVolume() * v1.getCost() <
            v2.getMaxVolume() * v2.getMaxWeight() * v2.getCost();
 }

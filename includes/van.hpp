@@ -62,6 +62,9 @@ public:
      */
     int getCurrentWeight() const;
 
+    // TODO: Documentation
+    std::vector<Order> getOrders() const;
+
     /**
      * @brief Constructs a Van object from a collection of tokens.
      *
@@ -101,12 +104,12 @@ public:
     void printStatistics(std::ostream &out) const;
 
     friend std::ostream &operator<<(std::ostream &, const Van &);
-};
 
-bool compareVanByVolume(const Van &v1, const Van &v2);
-bool compareVanByWeight(const Van &v1, const Van &v2);
-bool compareVanByArea(const Van &v1, const Van &v2);
-bool compareVanByCostDivision(const Van &v1, const Van &v2);
-bool compareVanByCostMult(const Van &v1, const Van &v2);
+    static bool compareByVolume(const Van &v1, const Van &v2);
+    static bool compareByWeight(const Van &v1, const Van &v2);
+    static bool compareByArea(const Van &v1, const Van &v2);
+    static bool compareByCostDivision(const Van &v1, const Van &v2);
+    static bool compareByCostMult(const Van &v1, const Van &v2);
+};
 
 #endif
