@@ -6,7 +6,7 @@
 /**
  * @brief Where the different datasets are stored.
  */
-const std::string DATASETS_PATH = "../datasets/";
+extern std::string DATASETS_PATH;
 /**
  * @brief Where the vans are stored.
  */

@@ -7,7 +7,16 @@
 #include "../includes/ui.hpp"
 #include "../includes/utils.hpp"
 
-int main() {
+std::string DATASETS_PATH;
+
+int main(int argc, char **argv) {
+    // Taken from https://stackoverflow.com/a/55579815/9937109
+    DATASETS_PATH =
+        (std::filesystem::weakly_canonical(std::filesystem::path(argv[0]))
+             .parent_path() /
+         "datasets/")
+            .string();
+
     UserInterface ui{};
 
     Dataset dataset = Dataset::load("default");
