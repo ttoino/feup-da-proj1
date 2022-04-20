@@ -215,7 +215,10 @@ void UserInterface::chooseDatasetMenu(Dataset &dataset) {
 
     for (auto &p : std::filesystem::directory_iterator(DATASETS_PATH))
         if (p.is_directory())
-            options.push_back({p.path().filename(), p.path().filename()});
+            options.push_back({
+                p.path().filename().string(),
+                p.path().filename().string(),
+            });
 
     const auto selection = optionsMenu(options);
 
