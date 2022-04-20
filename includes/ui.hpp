@@ -5,8 +5,8 @@ class UserInterface;
 
 #include <functional>
 #include <limits>
-#include <map>
 #include <optional>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -70,7 +70,6 @@ class UserInterface {
 
     // TODO: Documentation
     SimulationResult result{{}, {}, {}};
-    std::string dataset{"default"};
 
     // TODO: Rewrite this
     /**
@@ -163,25 +162,23 @@ class UserInterface {
      */
     void mainMenu();
 
-    void showOrdersMenu(std::map<std::string, Dataset> &datasets);
+    void showOrdersMenu(Dataset &dataset);
 
-    void showVansMenu(std::map<std::string, Dataset> &datasets);
+    void showVansMenu(Dataset &dataset);
 
     void chooseScenarioMenu();
 
-    void chooseDatasetMenu(std::map<std::string, Dataset> &datasets);
+    void chooseDatasetMenu(Dataset &dataset);
 
-    void scenarioOneMenu(std::map<std::string, Dataset> &datasets);
+    void scenarioOneMenu(Dataset &dataset);
 
-    void scenarioTwoMenu(std::map<std::string, Dataset> &datasets);
+    void scenarioTwoMenu(Dataset &dataset);
 
-    void scenarioThreeMenu(std::map<std::string, Dataset> &datasets);
+    void scenarioThreeMenu(Dataset &dataset);
 
-    void resultsMenu(std::map<std::string, Dataset> &datasets);
+    void resultsMenu();
 
     void resultsVansMenu();
-
-    const Dataset &getDataset(std::map<std::string, Dataset> &datasets);
 
 public:
     /**
@@ -189,7 +186,7 @@ public:
      *
      * @param graph The graph.
      */
-    void show(std::map<std::string, Dataset> &datasets);
+    void show(Dataset &dataset);
     /**
      * @brief Shows a message before the program exits.
      */

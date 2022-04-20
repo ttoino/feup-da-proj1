@@ -27,7 +27,9 @@ Van Van::from(const std::vector<std::string> &tokens) {
 }
 
 std::vector<Van> Van::processDataset(const std::string &path) {
-    std::ifstream dataset_file{path + VANS_FILE};
+    GLOBAL_ID = 1;
+
+    std::ifstream dataset_file{DATASETS_PATH + path + VANS_FILE};
 
     if (!dataset_file.is_open())
         return {};
@@ -63,7 +65,6 @@ bool Van::canFit(const Order &o) const {
 }
 
 bool Van::addOrder(const Order &order) {
-
     if (!canFit(order))
         return false;
 

@@ -1,4 +1,5 @@
 #include <cmath>
+#include <filesystem>
 #include <iomanip>
 #include <iostream>
 #include <string>
@@ -106,7 +107,7 @@ bool UserInterface::inRange(double n, double min, double max) {
     return b;
 }
 
-void UserInterface::show(std::map<std::string, Dataset> &datasets) {
+void UserInterface::show(Dataset &dataset) {
     std::cout << CLEAR_SCREEN << PROGRAM_NAME << '\n' << std::endl;
 
     switch (currentMenu) {
@@ -114,30 +115,30 @@ void UserInterface::show(std::map<std::string, Dataset> &datasets) {
         mainMenu();
         break;
     case SHOW_ORDERS:
-        showOrdersMenu(datasets);
+        showOrdersMenu(dataset);
         break;
     case SHOW_VANS:
-        showVansMenu(datasets);
+        showVansMenu(dataset);
         break;
     case CHOOSE_SCENARIO:
         chooseScenarioMenu();
         break;
     case CHOOSE_DATASET:
-        chooseDatasetMenu(datasets);
+        chooseDatasetMenu(dataset);
         break;
 
     case SCENARIO_ONE:
-        scenarioOneMenu(datasets);
+        scenarioOneMenu(dataset);
         break;
     case SCENARIO_TWO:
-        scenarioTwoMenu(datasets);
+        scenarioTwoMenu(dataset);
         break;
     case SCENARIO_THREE:
-        scenarioThreeMenu(datasets);
+        scenarioThreeMenu(dataset);
         break;
 
     case RESULTS:
-        resultsMenu(datasets);
+        resultsMenu();
         break;
     case RESULTS_VANS:
         resultsVansMenu();
@@ -189,14 +190,14 @@ void UserInterface::paginatedMenu(const std::vector<T> &items) {
     }
 }
 
-void UserInterface::showOrdersMenu(std::map<std::string, Dataset> &datasets) {
+void UserInterface::showOrdersMenu(Dataset &dataset) {
     std::cout << "Volume\tWeight\tReward\tDuration\n";
-    paginatedMenu(datasets.at(dataset).getOrders());
+    paginatedMenu(dataset.getOrders());
 }
 
-void UserInterface::showVansMenu(std::map<std::string, Dataset> &datasets) {
+void UserInterface::showVansMenu(Dataset &dataset) {
     std::cout << "Volume\tWeight\tCost\n" << std::left;
-    paginatedMenu(datasets.at(dataset).getVans());
+    paginatedMenu(dataset.getVans());
 }
 
 void UserInterface::chooseScenarioMenu() {
@@ -209,31 +210,27 @@ void UserInterface::chooseScenarioMenu() {
     currentMenu = menu.value_or(currentMenu);
 }
 
-void UserInterface::chooseDatasetMenu(
-    std::map<std::string, Dataset> &datasets) {
-    int i = 1;
-    for (const auto &p : datasets) {
-        std::cout << "  - " << p.first << " (" << p.second.getVans().size()
-                  << " vans and " << p.second.getOrders().size()
-                  << " orders)\n";
-    }
+void UserInterface::chooseDatasetMenu(Dataset &dataset) {
+    Options<std::string> options{{"Go back", ""}};
 
-    const std::string option =
-        getStringInput("\nPlease insert option (enter to go back): ");
+    for (auto &p : std::filesystem::directory_iterator(DATASETS_PATH))
+        if (p.is_directory())
+            options.push_back({p.path().filename(), p.path().filename()});
 
-    if (option == "") {
-        currentMenu = MAIN;
+    const auto selection = optionsMenu(options);
+
+    if (!selection.has_value())
         return;
-    }
 
-    if (datasets.contains(option)) {
-        dataset = option;
-        currentMenu = MAIN;
-    } else
-        errorMessage = "Invalid option!\n";
+    currentMenu = MAIN;
+
+    if (selection == "")
+        return;
+
+    dataset = Dataset::load(selection.value());
 }
 
-void UserInterface::scenarioOneMenu(std::map<std::string, Dataset> &datasets) {
+void UserInterface::scenarioOneMenu(Dataset &dataset) {
     auto selection = optionsMenu<std::optional<Scenario1Strategy>>({
         {"Go back", {}},
         {"Optimize using volume - ascending", Scenario1Strategy::VOLUME_ASC},
@@ -252,11 +249,11 @@ void UserInterface::scenarioOneMenu(std::map<std::string, Dataset> &datasets) {
         return;
     }
 
-    result = scenario1(getDataset(datasets), selection.value().value());
+    result = scenario1(dataset, selection.value().value());
     currentMenu = RESULTS;
 }
 
-void UserInterface::scenarioTwoMenu(std::map<std::string, Dataset> &datasets) {
+void UserInterface::scenarioTwoMenu(Dataset &dataset) {
     auto selection = optionsMenu<std::optional<Scenario2Strategy>>({
         {"Go back", {}},
         {"Optimize using division", Scenario2Strategy::DIVIDE},
@@ -271,17 +268,16 @@ void UserInterface::scenarioTwoMenu(std::map<std::string, Dataset> &datasets) {
         return;
     }
 
-    result = scenario2(getDataset(datasets), selection.value().value());
+    result = scenario2(dataset, selection.value().value());
     currentMenu = RESULTS;
 }
 
-void UserInterface::scenarioThreeMenu(
-    std::map<std::string, Dataset> &datasets) {
-    result = scenario3(getDataset(datasets));
+void UserInterface::scenarioThreeMenu(Dataset &dataset) {
+    result = scenario3(dataset);
     currentMenu = RESULTS;
 }
 
-void UserInterface::resultsMenu(std::map<std::string, Dataset> &datasets) {
+void UserInterface::resultsMenu() {
     std::cout << "Used " << result.vans.size() << " vans\n"
               << "Dispatched " << result.ordersDispatched << " orders, "
               << result.remainingOrders.size() << " remain\n"
@@ -309,9 +305,4 @@ void UserInterface::resultsMenu(std::map<std::string, Dataset> &datasets) {
 void UserInterface::resultsVansMenu() {
     std::cout << "Volume\tWeight\tCost\n" << std::left;
     paginatedMenu(result.vans);
-}
-
-const Dataset &
-UserInterface::getDataset(std::map<std::string, Dataset> &datasets) {
-    return datasets.at(dataset);
 }

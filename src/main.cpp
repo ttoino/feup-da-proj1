@@ -1,6 +1,6 @@
 #include <filesystem>
 #include <iostream>
-#include <map>
+#include <set>
 
 #include "../includes/constants.hpp"
 #include "../includes/dataset.hpp"
@@ -10,15 +10,11 @@
 int main() {
     UserInterface ui{};
 
-    std::map<std::string, Dataset> datasets{};
-
-    for (auto &p : std::filesystem::directory_iterator(DATASETS_PATH))
-        if (p.is_directory())
-            datasets[p.path().filename()] = Dataset::load(p.path());
+    Dataset dataset = Dataset::load("default");
 
     try {
         while (true)
-            ui.show(datasets);
+            ui.show(dataset);
     } catch (Exit) {
         ui.exit();
     }

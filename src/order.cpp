@@ -25,7 +25,9 @@ Order Order::from(const std::vector<std::string> &tokens) {
 }
 
 std::vector<Order> Order::processDataset(const std::string &path) {
-    std::ifstream dataset_file{path + ORDERS_FILE};
+    GLOBAL_ID = 1;
+
+    std::ifstream dataset_file{DATASETS_PATH + path + ORDERS_FILE};
 
     if (!dataset_file.is_open())
         return {};
