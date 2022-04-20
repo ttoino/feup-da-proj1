@@ -5,8 +5,9 @@
 #include "../includes/scenarios.hpp"
 
 SimulationResult::SimulationResult(const std::vector<Order> &rorders,
-                                   const std::vector<Van> &vans)
-    : remainingOrders(rorders), vans(vans) {
+                                   const std::vector<Van> &vans,
+                                   const std::chrono::microseconds &runtime)
+    : remainingOrders(rorders), vans(vans), runtime(runtime) {
     for (const Van &v : vans) {
         ordersDispatched += v.getOrders().size();
         cost += v.getCost();
@@ -26,6 +27,8 @@ SimulationResult _firstFitBinPacking(std::vector<Order> o,
                                      std::vector<Van> vans,
                                      const VanOrdering &vanOrdering,
                                      const OrderOrdering &orderOrdering) {
+    auto tstart = std::chrono::high_resolution_clock::now();
+
     std::sort(o.begin(), o.end(), orderOrdering);
     std::sort(vans.begin(), vans.end(), vanOrdering);
 
@@ -40,10 +43,6 @@ SimulationResult _firstFitBinPacking(std::vector<Order> o,
             if (vi->canFit(*oi)) {
                 vi->addOrder(*oi);
                 oi = orders.erase(oi);
-
-                if (vi->getCurrentVolume() >= vi->getMaxVolume() ||
-                    vi->getCurrentWeight() >= vi->getMaxWeight())
-                    break;
             } else {
                 ++oi;
             }
@@ -52,7 +51,13 @@ SimulationResult _firstFitBinPacking(std::vector<Order> o,
         result.push_back(*vi);
     }
 
-    return {{orders.begin(), oend}, result};
+    auto tend = std::chrono::high_resolution_clock::now();
+
+    return {
+        {orders.begin(), oend},
+        result,
+        std::chrono::duration_cast<std::chrono::microseconds>(tend - tstart),
+    };
 }
 
 const SimulationResult scenario1(const Dataset &dataset,
@@ -112,6 +117,8 @@ const SimulationResult scenario2(const Dataset &dataset,
 }
 
 const SimulationResult scenario3(const Dataset &dataset) {
+    auto tstart = std::chrono::high_resolution_clock::now();
+
     std::vector<Order> orders = dataset.getOrders();
     std::sort(orders.begin(), orders.end(), Order::compareByDuration);
     Van van{std::numeric_limits<int>::max(), std::numeric_limits<int>::max(),
@@ -125,5 +132,11 @@ const SimulationResult scenario3(const Dataset &dataset) {
         time += i->getDuration();
     }
 
-    return {{i, end}, {van}};
+    auto tend = std::chrono::high_resolution_clock::now();
+
+    return {
+        {i, end},
+        {van},
+        std::chrono::duration_cast<std::chrono::microseconds>(tend - tstart),
+    };
 }

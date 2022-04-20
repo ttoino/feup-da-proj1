@@ -287,10 +287,12 @@ void UserInterface::resultsMenu(std::map<std::string, Dataset> &datasets) {
               << result.remainingOrders.size() << " remain\n"
               << "Delivery efficiency: " << (result.efficiency * 100) << "%\n"
               << "Average delivery time: "
-              << ((double)result.deliveryTime / result.ordersDispatched) << "\n"
+              << ((double)result.deliveryTime / result.ordersDispatched)
+              << "s\n"
               << "Spent " << result.cost << "€ on vans\n"
               << "Received " << result.reward << "€ from orders\n"
-              << "Total profit: " << result.profit << "€\n\n";
+              << "Total profit: " << result.profit << "€\n"
+              << "Took " << result.runtime.count() << "µs\n\n";
 
     // if (result.vans.size())
     //     for (auto &van : result.vans)

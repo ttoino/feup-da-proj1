@@ -69,7 +69,7 @@ class UserInterface {
     std::string errorMessage{};
 
     // TODO: Documentation
-    SimulationResult result{{}, {}};
+    SimulationResult result{{}, {}, {}};
     std::string dataset{"default"};
 
     // TODO: Rewrite this
