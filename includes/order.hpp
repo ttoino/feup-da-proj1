@@ -69,7 +69,7 @@ public:
      *
      * @return a collection of Van objects
      */
-    static std::vector<Order> processDataset();
+    static std::vector<Order> processDataset(const std::string &path);
 
     friend std::ostream &operator<<(std::ostream &, const Order &);
 };

@@ -4,13 +4,17 @@
 #include <string>
 
 /**
+ * @brief Where the different datasets are stored.
+ */
+const std::string DATASETS_PATH = "../datasets/";
+/**
  * @brief Where the vans are stored.
  */
-const std::string VANS_FILE_PATH = "../dataset/carrinhas.txt";
+const std::string VANS_FILE = "/carrinhas.txt";
 /**
  * @brief Where the orders are stored.
  */
-const std::string ORDERS_FILE_PATH = "../dataset/encomendas.txt";
+const std::string ORDERS_FILE = "/encomendas.txt";
 
 const unsigned int ITEMS_PER_PAGE = 10;
 

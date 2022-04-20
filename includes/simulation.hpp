@@ -8,7 +8,7 @@
 
 /**
  * @brief Struct packing the results of a given simulation
- * 
+ *
  */
 struct SimulationResult {
     std::vector<Order> remainingOrders;
@@ -24,18 +24,18 @@ struct SimulationResult {
 
 /**
  * @brief Represents a simulation to be performed by the application
- * 
+ *
  */
 class Simulation {
 
 public:
-
     /**
-     * @brief Runs this specified simulation and returns the simulation's results.
-     * 
+     * @brief Runs this specified simulation and returns the simulation's
+     * results.
+     *
      * @return the simulation's results
      */
-    virtual SimulationResult run() = 0;
+    virtual SimulationResult run(const Dataset &dataset) = 0;
 };
 
 #endif

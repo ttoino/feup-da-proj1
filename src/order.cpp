@@ -7,7 +7,8 @@
 int Order::GLOBAL_ID = 1;
 
 Order::Order(int vol, int weight, int reward, int duration)
-    : volume(vol), weight(weight), reward(reward), duration(duration), id(GLOBAL_ID++) {};
+    : volume(vol), weight(weight), reward(reward), duration(duration),
+      id(GLOBAL_ID++){};
 
 int Order::getVolume() const { return this->volume; }
 int Order::getWeight() const { return this->weight; }
@@ -15,7 +16,6 @@ int Order::getReward() const { return this->reward; }
 int Order::getDuration() const { return this->duration; }
 
 Order Order::from(const std::vector<std::string> &tokens) {
-
     int vol = std::stoi(tokens.at(0));
     int weight = std::stoi(tokens.at(1));
     int reward = std::stoi(tokens.at(2));
@@ -24,9 +24,8 @@ Order Order::from(const std::vector<std::string> &tokens) {
     return Order{vol, weight, reward, duration};
 }
 
-std::vector<Order> Order::processDataset() {
-
-    std::ifstream dataset_file{ORDERS_FILE_PATH};
+std::vector<Order> Order::processDataset(const std::string &path) {
+    std::ifstream dataset_file{path + ORDERS_FILE};
 
     if (!dataset_file.is_open())
         return {};
@@ -43,8 +42,8 @@ std::vector<Order> Order::processDataset() {
 }
 
 std::ostream &operator<<(std::ostream &out, const Order &o) {
-    out << o.id << ' ' << o.getVolume() << '\t' << o.getWeight() << '\t' << o.getReward()
-        << '\t' << o.getDuration();
+    out << o.id << ' ' << o.getVolume() << '\t' << o.getWeight() << '\t'
+        << o.getReward() << '\t' << o.getDuration();
 
     return out;
 }
@@ -78,5 +77,5 @@ bool compareOrderByRewardDivision(const Order &o1, const Order &o2) {
 
 bool compareOrderByRewardMult(const Order &o1, const Order &o2) {
     return o1.getWeight() * o1.getVolume() * o1.getReward() >
-            o2.getVolume() * o2.getWeight() * o2.getReward();
+           o2.getVolume() * o2.getWeight() * o2.getReward();
 }

@@ -3,10 +3,7 @@
 #include <algorithm>
 #include <vector>
 
-SimulationResult Simulation1::run() {
-
-    Dataset dataset = Dataset::load();
-
+SimulationResult Simulation1::run(const Dataset &dataset) {
     std::vector<Order> orders = dataset.getOrders(), remainingOrders = {};
     std::vector<Van> vans = dataset.getVans(), resultVans = {};
 

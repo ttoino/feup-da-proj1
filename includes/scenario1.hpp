@@ -30,7 +30,7 @@ public:
      * @note the vans are sorted by <option> in descending order
      * @note the orders are sorted by <option> in ascending order
      */
-    SimulationResult run();
+    SimulationResult run(const Dataset &dataset);
 };
 
 #endif // DA_PROJ1_SCENARIO1_HPP

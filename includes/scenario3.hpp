@@ -1,11 +1,11 @@
 #ifndef DA_PROJ1_SCENARIO3_HPP
 #define DA_PROJ1_SCENARIO3_HPP
 
-#include "simulation.hpp"
 #include "dataset.hpp"
+#include "simulation.hpp"
 
-#include <iostream>
 #include <algorithm>
+#include <iostream>
 
 class Simulation3 : public Simulation {
 public:
@@ -15,10 +15,9 @@ private:
     SimulationOptions option;
 
 public:
-    Simulation3(SimulationOptions option) : option(option) {};
+    Simulation3(SimulationOptions option) : option(option){};
 
-    SimulationResult run();
+    SimulationResult run(const Dataset &dataset);
 };
 
-
-#endif //DA_PROJ1_SCENARIO3_HPP
+#endif // DA_PROJ1_SCENARIO3_HPP

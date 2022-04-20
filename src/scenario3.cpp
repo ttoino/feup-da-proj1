@@ -1,8 +1,6 @@
 #include "../includes/scenario3.hpp"
 
-SimulationResult Simulation3::run() {
-    Dataset dataset = Dataset::load();
-
+SimulationResult Simulation3::run(const Dataset &dataset) {
     std::vector<Order> orders = dataset.getOrders(), remainingOrders = {};
 
     double time = 0, max_time = 8 * 3600;

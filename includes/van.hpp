@@ -75,7 +75,7 @@ public:
      *
      * @return a collection of Van objects
      */
-    static std::vector<Van> processDataset();
+    static std::vector<Van> processDataset(const std::string &path);
 
     /**
      * @brief assigns an order to a van
@@ -95,10 +95,10 @@ public:
 
     /**
      * @brief Prints statistics about this van.
-     * 
+     *
      * @param out the output stream to write the statistics to
      */
-    void printStatistics(std::ostream& out) const;
+    void printStatistics(std::ostream &out) const;
 
     friend std::ostream &operator<<(std::ostream &, const Van &);
 };

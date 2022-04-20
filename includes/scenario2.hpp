@@ -1,8 +1,8 @@
 #ifndef DA_PROJ1_SCENARIO2_HPP
 #define DA_PROJ1_SCENARIO2_HPP
 
-#include "simulation.hpp"
 #include "dataset.hpp"
+#include "simulation.hpp"
 #include <iostream>
 
 class Simulation2 : public Simulation {
@@ -13,7 +13,7 @@ private:
     SimulationOptions option;
 
 public:
-    Simulation2(SimulationOptions option) : option(option) {};
+    Simulation2(SimulationOptions option) : option(option){};
 
     /**
      * @brief the number of vans is minimized and the number of orders delivered
@@ -26,10 +26,9 @@ public:
      * @note the vans are sorted by <option> in descending order
      * @note the orders are sorted by <option> in ascending order
      */
-    SimulationResult run();
+    SimulationResult run(const Dataset &dataset);
 
-    SimulationResult run2DVSBPP();
+    SimulationResult run2DVSBPP(const Dataset &dataset);
 };
 
-
-#endif //DA_PROJ1_SCENARIO2_HPP
+#endif // DA_PROJ1_SCENARIO2_HPP

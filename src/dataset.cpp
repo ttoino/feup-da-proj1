@@ -2,11 +2,11 @@
 #include "../includes/order.hpp"
 #include "../includes/van.hpp"
 
-Dataset Dataset::load() {
+Dataset Dataset::load(const std::string &path) {
     Dataset dataset;
 
-    dataset.orders = Order::processDataset();
-    dataset.vans = Van::processDataset();
+    dataset.orders = Order::processDataset(path);
+    dataset.vans = Van::processDataset(path);
 
     return dataset;
 }

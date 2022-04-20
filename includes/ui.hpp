@@ -5,6 +5,7 @@ class UserInterface;
 
 #include <functional>
 #include <limits>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -32,6 +33,8 @@ enum Menu {
      */
     CHOOSE_SCENARIO,
 
+    CHOOSE_DATASET,
+
     SCENARIO_ONE,
     SCENARIO_ONE_VOLUME,
     SCENARIO_ONE_WEIGHT,
@@ -46,6 +49,7 @@ enum Menu {
     SCENARIO_THREE_WEIGHT,
 
     RESULTS,
+    RESULTS_VANS,
 
     /**
      * @brief Exits the program.
@@ -58,6 +62,8 @@ enum Menu {
  *        application.
  */
 class UserInterface {
+    using options_t = std::vector<std::pair<const std::string, Menu>>;
+
     /**
      * @brief Specifies which menu to show.
      */
@@ -68,7 +74,9 @@ class UserInterface {
      */
     std::string errorMessage{};
 
+    // TODO: Documentation
     SimulationResult result{};
+    std::string dataset{"default"};
 
     /**
      * @brief Helper method to show a menu with options.
@@ -82,8 +90,7 @@ class UserInterface {
      *
      * @param options The list of options to show
      */
-    void
-    optionsMenu(const std::vector<std::pair<const std::string, Menu>> &options);
+    void optionsMenu(const options_t &options);
 
     /**
      * @brief Tries to transform a string into an unsigned integer, displaying
@@ -161,11 +168,13 @@ class UserInterface {
      */
     void mainMenu();
 
-    void showOrdersMenu(Dataset &dataset);
+    void showOrdersMenu(std::map<std::string, Dataset> &datasets);
 
-    void showVansMenu(Dataset &dataset);
+    void showVansMenu(std::map<std::string, Dataset> &datasets);
 
     void chooseScenarioMenu();
+
+    void chooseDatasetMenu(std::map<std::string, Dataset> &datasets);
 
     void scenarioOneMenu();
 
@@ -173,7 +182,9 @@ class UserInterface {
 
     void scenarioThreeMenu();
 
-    void resultsMenu(Dataset &dataset);
+    void resultsMenu(std::map<std::string, Dataset> &datasets);
+
+    void resultsVansMenu();
 
 public:
     /**
@@ -181,7 +192,7 @@ public:
      *
      * @param graph The graph.
      */
-    void show(Dataset &dataset);
+    void show(std::map<std::string, Dataset> &datasets);
     /**
      * @brief Shows a message before the program exits.
      */

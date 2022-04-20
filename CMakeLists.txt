@@ -25,7 +25,7 @@ target_compile_definitions(da_proj1_no_ansi PUBLIC NO_ANSI)
 include_directories(da_proj1 includes/)
 include_directories(da_proj1_no_ansi includes/)
 
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/dataset
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/datasets
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 # Doxygen Build

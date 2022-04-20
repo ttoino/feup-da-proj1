@@ -12,8 +12,7 @@
 #include "../includes/ui.hpp"
 #include "../includes/utils.hpp"
 
-void UserInterface::optionsMenu(
-    const std::vector<std::pair<const std::string, Menu>> &options) {
+void UserInterface::optionsMenu(const options_t &options) {
     for (int i{1}; i < options.size(); ++i) {
         std::cout << "(" << i << ") " << options.at(i).first << std::endl;
     }
@@ -105,7 +104,7 @@ bool UserInterface::inRange(double n, double min, double max) {
     return b;
 }
 
-void UserInterface::show(Dataset &dataset) {
+void UserInterface::show(std::map<std::string, Dataset> &datasets) {
     std::cout << CLEAR_SCREEN << PROGRAM_NAME << '\n' << std::endl;
 
     switch (currentMenu) {
@@ -113,13 +112,16 @@ void UserInterface::show(Dataset &dataset) {
         mainMenu();
         break;
     case SHOW_ORDERS:
-        showOrdersMenu(dataset);
+        showOrdersMenu(datasets);
         break;
     case SHOW_VANS:
-        showVansMenu(dataset);
+        showVansMenu(datasets);
         break;
     case CHOOSE_SCENARIO:
         chooseScenarioMenu();
+        break;
+    case CHOOSE_DATASET:
+        chooseDatasetMenu(datasets);
         break;
 
     case SCENARIO_ONE:
@@ -127,19 +129,19 @@ void UserInterface::show(Dataset &dataset) {
         break;
     case SCENARIO_ONE_VOLUME: {
         Simulation1 sim(Simulation1::VOLUME);
-        result = sim.run();
+        result = sim.run(datasets.at(dataset));
         currentMenu = RESULTS;
         break;
     }
     case SCENARIO_ONE_WEIGHT: {
         Simulation1 sim(Simulation1::WEIGHT);
-        result = sim.run();
+        result = sim.run(datasets.at(dataset));
         currentMenu = RESULTS;
         break;
     }
     case SCENARIO_ONE_AREA: {
         Simulation1 sim(Simulation1::AREA);
-        result = sim.run();
+        result = sim.run(datasets.at(dataset));
         currentMenu = RESULTS;
         break;
     }
@@ -151,14 +153,14 @@ void UserInterface::show(Dataset &dataset) {
 
     case SCENARIO_TWO_MULTIPLY: {
         Simulation2 sim(Simulation2::MULTIPLY);
-        result = sim.run();
+        result = sim.run(datasets.at(dataset));
         currentMenu = RESULTS;
         break;
     }
 
     case SCENARIO_TWO_DIVIDE: {
         Simulation2 sim(Simulation2::DIVIDE);
-        result = sim.run();
+        result = sim.run(datasets.at(dataset));
         currentMenu = RESULTS;
         break;
     }
@@ -168,20 +170,24 @@ void UserInterface::show(Dataset &dataset) {
         break;
     case SCENARIO_THREE_VOLUME: {
         Simulation3 sim(Simulation3::VOLUME);
-        result = sim.run();
+        result = sim.run(datasets.at(dataset));
         currentMenu = RESULTS;
         break;
     }
     case SCENARIO_THREE_WEIGHT: {
         Simulation3 sim(Simulation3::WEIGHT);
-        result = sim.run();
+        result = sim.run(datasets.at(dataset));
         currentMenu = RESULTS;
         break;
     }
 
     case RESULTS:
-        resultsMenu(dataset);
+        resultsMenu(datasets);
         break;
+    case RESULTS_VANS:
+        resultsVansMenu();
+        break;
+
     case EXIT:
     default:
         throw Exit();
@@ -199,6 +205,7 @@ void UserInterface::mainMenu() {
         {"Exit", EXIT},
         {"Orders", SHOW_ORDERS},
         {"Vans", SHOW_VANS},
+        {"Choose dataset", CHOOSE_DATASET},
         {"Choose scenario", CHOOSE_SCENARIO},
     });
 }
@@ -216,22 +223,24 @@ void UserInterface::paginatedMenu(const std::vector<T> &items) {
         std::cout << *i << std::endl;
 
     std::cout << "\nPage " << page + 1 << " of " << pages;
-    auto option = getStringInput("\nPress enter for next page, or 'q' to exit paginated view");
+    auto option = getStringInput(
+        "\nPress enter for next page, or 'q' to exit paginated view");
 
-    if ((option.size() == 1 && tolower(option.at(0)) == 'q') || (++page == pages)) {
+    if ((option.size() == 1 && tolower(option.at(0)) == 'q') ||
+        (++page == pages)) {
         currentMenu = MAIN;
         page = 0;
     }
 }
 
-void UserInterface::showOrdersMenu(Dataset &dataset) {
+void UserInterface::showOrdersMenu(std::map<std::string, Dataset> &datasets) {
     std::cout << "Volume\tWeight\tReward\tDuration\n";
-    paginatedMenu(dataset.getOrders());
+    paginatedMenu(datasets.at(dataset).getOrders());
 }
 
-void UserInterface::showVansMenu(Dataset &dataset) {
+void UserInterface::showVansMenu(std::map<std::string, Dataset> &datasets) {
     std::cout << "Volume\tWeight\tCost\n" << std::left;
-    paginatedMenu(dataset.getVans());
+    paginatedMenu(datasets.at(dataset).getVans());
 }
 
 void UserInterface::chooseScenarioMenu() {
@@ -241,6 +250,32 @@ void UserInterface::chooseScenarioMenu() {
         {"Scenario 2 - Maximize profit", SCENARIO_TWO},
         {"Scenario 3 - Maximize express deliveries", SCENARIO_THREE},
     });
+}
+
+void UserInterface::chooseDatasetMenu(
+    std::map<std::string, Dataset> &datasets) {
+    std::cout << "Choose dataset:\n\n";
+
+    int i = 1;
+    for (const auto &p : datasets) {
+        std::cout << "  - " << p.first << " (" << p.second.getVans().size()
+                  << " vans and " << p.second.getOrders().size()
+                  << " orders)\n";
+    }
+
+    const std::string option =
+        getStringInput("\nPlease insert option (enter to go back): ");
+
+    if (option == "") {
+        currentMenu = MAIN;
+        return;
+    }
+
+    if (datasets.contains(option)) {
+        dataset = option;
+        currentMenu = MAIN;
+    } else
+        errorMessage = "Invalid option!\n";
 }
 
 void UserInterface::scenarioOneMenu() {
@@ -268,7 +303,7 @@ void UserInterface::scenarioThreeMenu() {
     });
 }
 
-void UserInterface::resultsMenu(Dataset &dataset) {
+void UserInterface::resultsMenu(std::map<std::string, Dataset> &datasets) {
     std::cout << result.remainingOrders.size() << " remaining orders\n"
               << "Used " << result.vansUsed << " vans\n"
               << "Dispatched " << result.ordersDispatched << " orders\n"
@@ -284,8 +319,9 @@ void UserInterface::resultsMenu(Dataset &dataset) {
                       ? (result.deliveryTime / result.ordersDispatched)
                       : -1)
               << "\n"
-              << "Profit : " << ((result.cost && result.reward)
-                ? (result.reward - result.cost) : -1)
+              << "Profit : "
+              << ((result.cost && result.reward) ? (result.reward - result.cost)
+                                                 : -1)
               << "\n\n";
 
     if (result.vans.size())
@@ -294,4 +330,13 @@ void UserInterface::resultsMenu(Dataset &dataset) {
 
     getStringInput("Press enter to continue ");
     currentMenu = MAIN;
+    // optionsMenu({
+    //     {"Continue", MAIN},
+    //     {"See vans", RESULTS_VANS},
+    // });
+}
+
+void UserInterface::resultsVansMenu() {
+    std::cout << "Volume\tWeight\tCost\n" << std::left;
+    paginatedMenu(result.vans);
 }
