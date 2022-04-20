@@ -2,9 +2,10 @@
 
 First project for the DA course unit at FEUP.
 
-A company wants to create an electronic crowdsourcing platform for deliveries. They hire couriers for the normal deliveries and they have a van for the express
-deliveries.
+A company wants to create an electronic crowdsourcing platform for deliveries.
+They hire couriers for the normal deliveries and they have a van for the express deliveries.
 In this project, we should develop algorithms to optimize different scenarios, such as:
+
 - Use the minimum couriers possible while delivering the maximum orders
 - Maximize the profit
 - Minimize the average delivery time
@@ -22,15 +23,15 @@ Additionally, documentation will also be generated in the `docs` folder. Run `gi
 Simply run the executable generated in the last section.
 
 The UI is quite simple and self descriptive. You are presented with options to check the available vans and the orders to be delivered. You can also choose a
-dataset to be load in the program and one of the scenarios mencioned above. 
+dataset to be load in the program and one of the scenarios mencioned above.
 
-The program expects the [dataset](dataset) folder next to the current working directory. This can be changed in the [constants.hpp](includes/constants.hpp) file.
+The program expects the [datasets](datasets) folder next to the current working directory. This can be changed in the [constants.hpp](includes/constants.hpp) file.
 
 ## Unit info
 
-* **Name**: Desenho de Algoritmos (Algorithm Design)
-* **Date**: Year 2, Semester 2, 2021/22
-* [**More info**](https://sigarra.up.pt/feup/pt/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=484424)
+- **Name**: Desenho de Algoritmos (Algorithm Design)
+- **Date**: Year 2, Semester 2, 2021/22
+- [**More info**](https://sigarra.up.pt/feup/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=484424)
 
 ## Disclaimer
 
