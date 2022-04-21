@@ -11,10 +11,14 @@ extern std::string DATASETS_PATH;
  * @brief Where the vans are stored.
  */
 const std::string VANS_FILE = "/carrinhas.txt";
+
+const std::string VANS_HEADER = "volMax pesoMax custo\n";
 /**
  * @brief Where the orders are stored.
  */
 const std::string ORDERS_FILE = "/encomendas.txt";
+
+const std::string ORDERS_HEADER = "volume peso recompensa duração(s)\n";
 
 const unsigned int ITEMS_PER_PAGE = 10;
 

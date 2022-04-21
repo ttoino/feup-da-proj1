@@ -1,4 +1,5 @@
 #include <fstream>
+#include <random>
 
 #include "../includes/constants.hpp"
 #include "../includes/order.hpp"
@@ -41,6 +42,46 @@ std::vector<Order> Order::processDataset(const std::string &path) {
         result.push_back(Order::from(split(line, ' ')));
 
     return result;
+}
+
+std::vector<Order>
+Order::generateDataset(const std::string &name,
+                       const DatasetGenerationParams &params) {
+    std::vector<Order> orders{params.numberOfOrders, {0, 0, 0, 0}};
+
+    GLOBAL_ID = 1;
+
+    std::ofstream dataset_file{DATASETS_PATH + name + ORDERS_FILE};
+
+    if (!dataset_file.is_open())
+        return {};
+
+    dataset_file << ORDERS_HEADER;
+
+    // Setup random generators
+    std::random_device rd{};
+    std::mt19937 gen{rd()};
+
+    // Generate orders
+    std::uniform_int_distribution orderWeightDist{params.minOrderWeight,
+                                                  params.maxOrderWeight},
+        orderVolumeDist{params.minOrderVolume, params.maxOrderVolume},
+        orderRewardDist{params.minOrderReward, params.maxOrderReward},
+        orderDurationDist{params.minOrderDuration, params.maxOrderDuration};
+
+    for (Order &o : orders) {
+        o = {
+            orderVolumeDist(gen),
+            orderWeightDist(gen),
+            orderRewardDist(gen),
+            orderDurationDist(gen),
+        };
+
+        dataset_file << o.volume << ' ' << o.weight << ' ' << o.reward << ' '
+                     << o.duration << '\n';
+    }
+
+    return orders;
 }
 
 std::ostream &operator<<(std::ostream &out, const Order &o) {

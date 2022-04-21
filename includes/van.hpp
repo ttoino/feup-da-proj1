@@ -1,9 +1,11 @@
 #ifndef DA_PROJ1_VAN_H
 #define DA_PROJ1_VAN_H
 
-class Order;
+class Van;
 
+#include "dataset.hpp"
 #include "order.hpp"
+
 #include <string>
 #include <vector>
 
@@ -79,6 +81,10 @@ public:
      * @return a collection of Van objects
      */
     static std::vector<Van> processDataset(const std::string &path);
+
+    static std::vector<Van>
+    generateDataset(const std::string &name,
+                    const DatasetGenerationParams &params);
 
     /**
      * @brief assigns an order to a van

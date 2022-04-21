@@ -19,6 +19,7 @@ int main(int argc, char **argv) {
     UserInterface ui{};
 
     Dataset dataset = Dataset::load("default");
+    // Dataset dataset = Dataset::generate("test", {});
 
     try {
         while (true)

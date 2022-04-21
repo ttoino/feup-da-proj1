@@ -1,5 +1,6 @@
 #include <fstream>
 #include <numeric>
+#include <random>
 
 #include "../includes/constants.hpp"
 #include "../includes/utils.hpp"
@@ -43,6 +44,43 @@ std::vector<Van> Van::processDataset(const std::string &path) {
         result.push_back(Van::from(split(line, ' ')));
 
     return result;
+}
+
+std::vector<Van> Van::generateDataset(const std::string &name,
+                                      const DatasetGenerationParams &params) {
+    std::vector<Van> vans{params.numberOfVans, {0, 0, 0}};
+
+    GLOBAL_ID = 1;
+
+    std::ofstream dataset_file{DATASETS_PATH + name + VANS_FILE};
+
+    if (!dataset_file.is_open())
+        return {};
+
+    dataset_file << VANS_HEADER;
+
+    // Setup random generators
+    std::random_device rd{};
+    std::mt19937 gen{rd()};
+
+    // Generate vans
+    std::uniform_int_distribution vanWeightDist{params.minVanWeight,
+                                                params.maxVanWeight},
+        vanVolumeDist{params.minVanVolume, params.maxVanVolume},
+        vanCostDist{params.minVanCost, params.maxVanCost};
+
+    for (Van &v : vans) {
+        v = {
+            vanVolumeDist(gen),
+            vanWeightDist(gen),
+            vanCostDist(gen),
+        };
+
+        dataset_file << v.maxVolume << ' ' << v.maxWeight << ' ' << v.cost
+                     << '\n';
+    }
+
+    return vans;
 }
 
 std::ostream &operator<<(std::ostream &out, const Van &v) {

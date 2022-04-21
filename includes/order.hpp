@@ -1,9 +1,11 @@
 #ifndef DA_PROJ1_DELIVERY_H
 #define DA_PROJ1_DELIVERY_H
 
-class Van;
+class Order;
 
+#include "dataset.hpp"
 #include "van.hpp"
+
 #include <string>
 #include <vector>
 
@@ -70,6 +72,10 @@ public:
      * @return a collection of Van objects
      */
     static std::vector<Order> processDataset(const std::string &path);
+
+    static std::vector<Order>
+    generateDataset(const std::string &name,
+                    const DatasetGenerationParams &params);
 
     friend std::ostream &operator<<(std::ostream &, const Order &);
 
