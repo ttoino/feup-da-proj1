@@ -105,11 +105,15 @@ public:
 
     friend std::ostream &operator<<(std::ostream &, const Van &);
 
+    // Scenario 1
     static bool compareByVolume(const Van &v1, const Van &v2);
     static bool compareByWeight(const Van &v1, const Van &v2);
     static bool compareByArea(const Van &v1, const Van &v2);
-    static bool compareByCostDivision(const Van &v1, const Van &v2);
-    static bool compareByCostMult(const Van &v1, const Van &v2);
+
+    // Scenario 2
+    static bool compareByVolumeOverCost(const Van &v1, const Van &v2);
+    static bool compareByWeightOverCost(const Van &v1, const Van &v2);
+    static bool compareByAreaOverCost(const Van &v1, const Van &v2);
 };
 
 #endif

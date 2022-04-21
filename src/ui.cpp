@@ -259,8 +259,12 @@ void UserInterface::scenarioOneMenu(Dataset &dataset) {
 void UserInterface::scenarioTwoMenu(Dataset &dataset) {
     auto selection = optionsMenu<std::optional<Scenario2Strategy>>({
         {"Go back", {}},
-        {"Optimize using division", Scenario2Strategy::DIVIDE},
-        {"Optimize using multiplication", Scenario2Strategy::MULTIPLY},
+        {"Optimize using volume - ascending", Scenario2Strategy::VOLUME_ASC},
+        {"Optimize using volume - descending", Scenario2Strategy::VOLUME_DESC},
+        {"Optimize using weight - ascending", Scenario2Strategy::WEIGHT_ASC},
+        {"Optimize using weight - descending", Scenario2Strategy::WEIGHT_DESC},
+        {"Optimize using area   - ascending", Scenario2Strategy::AREA_ASC},
+        {"Optimize using area   - descending", Scenario2Strategy::AREA_DESC},
     });
 
     if (!selection.has_value()) // Error while getting option

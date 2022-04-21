@@ -132,12 +132,17 @@ bool Van::compareByArea(const Van &v1, const Van &v2) {
            v2.getMaxVolume() * v2.getMaxWeight();
 }
 
-bool Van::compareByCostDivision(const Van &v1, const Van &v2) {
-    return ((v1.getMaxVolume() * v1.getMaxVolume()) / v1.getCost()) >
-           ((v2.getMaxVolume() * v2.getMaxWeight()) / v2.getCost());
+bool Van::compareByVolumeOverCost(const Van &v1, const Van &v2) {
+    return (double)v1.getMaxVolume() / v1.getCost() >
+           (double)v2.getMaxVolume() / v2.getCost();
 }
 
-bool Van::compareByCostMult(const Van &v1, const Van &v2) {
-    return v1.getMaxWeight() * v1.getMaxVolume() * v1.getCost() <
-           v2.getMaxVolume() * v2.getMaxWeight() * v2.getCost();
+bool Van::compareByWeightOverCost(const Van &v1, const Van &v2) {
+    return (double)v1.getMaxWeight() / v1.getCost() >
+           (double)v2.getMaxWeight() / v2.getCost();
+}
+
+bool Van::compareByAreaOverCost(const Van &v1, const Van &v2) {
+    return (double)v1.getMaxVolume() * v1.getMaxWeight() / v1.getCost() >
+           (double)v2.getMaxVolume() * v2.getMaxWeight() / v2.getCost();
 }

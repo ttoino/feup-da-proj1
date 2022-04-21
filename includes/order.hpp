@@ -73,15 +73,20 @@ public:
 
     friend std::ostream &operator<<(std::ostream &, const Order &);
 
+    // Scenario 1 & 2
     static bool compareByVolumeAsc(const Order &o1, const Order &o2);
     static bool compareByVolumeDesc(const Order &o1, const Order &o2);
     static bool compareByWeightAsc(const Order &o1, const Order &o2);
     static bool compareByWeightDesc(const Order &o1, const Order &o2);
     static bool compareByAreaAsc(const Order &o1, const Order &o2);
     static bool compareByAreaDesc(const Order &o1, const Order &o2);
+
+    // Scenario 2
+    // static bool compareByRewardDivision(const Order &o1, const Order &o2);
+    // static bool compareByRewardMult(const Order &o1, const Order &o2);
+
+    // Scenario 3
     static bool compareByDuration(const Order &o1, const Order &o2);
-    static bool compareByRewardDivision(const Order &o1, const Order &o2);
-    static bool compareByRewardMult(const Order &o1, const Order &o2);
 };
 
 #endif

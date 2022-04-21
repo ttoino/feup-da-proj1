@@ -90,12 +90,12 @@ bool Order::compareByDuration(const Order &o1, const Order &o2) {
     return o1.getDuration() < o2.getDuration();
 }
 
-bool Order::compareByRewardDivision(const Order &o1, const Order &o2) {
-    return ((o1.getVolume() * o1.getWeight()) / o1.getReward() <
-            (o2.getVolume() * o2.getWeight()) / o2.getReward());
-}
+// bool Order::compareByRewardDivision(const Order &o1, const Order &o2) {
+//     return ((o1.getVolume() * o1.getWeight()) / o1.getReward() <
+//             (o2.getVolume() * o2.getWeight()) / o2.getReward());
+// }
 
-bool Order::compareByRewardMult(const Order &o1, const Order &o2) {
-    return o1.getWeight() * o1.getVolume() * o1.getReward() >
-           o2.getVolume() * o2.getWeight() * o2.getReward();
-}
+// bool Order::compareByRewardMult(const Order &o1, const Order &o2) {
+//     return o1.getWeight() * o1.getVolume() * o1.getReward() >
+//            o2.getVolume() * o2.getWeight() * o2.getReward();
+// }

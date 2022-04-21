@@ -102,13 +102,29 @@ const SimulationResult scenario2(const Dataset &dataset,
     VanOrdering vanOrdering;
 
     switch (strat) {
-    case Scenario2Strategy::DIVIDE:
-        orderOrdering = Order::compareByRewardDivision;
-        vanOrdering = Van::compareByCostDivision;
+    case Scenario2Strategy::VOLUME_ASC:
+        orderOrdering = Order::compareByVolumeAsc;
+        vanOrdering = Van::compareByVolumeOverCost;
         break;
-    case Scenario2Strategy::MULTIPLY:
-        orderOrdering = Order::compareByRewardMult;
-        vanOrdering = Van::compareByCostMult;
+    case Scenario2Strategy::VOLUME_DESC:
+        orderOrdering = Order::compareByVolumeDesc;
+        vanOrdering = Van::compareByVolumeOverCost;
+        break;
+    case Scenario2Strategy::WEIGHT_ASC:
+        orderOrdering = Order::compareByWeightAsc;
+        vanOrdering = Van::compareByWeightOverCost;
+        break;
+    case Scenario2Strategy::WEIGHT_DESC:
+        orderOrdering = Order::compareByWeightDesc;
+        vanOrdering = Van::compareByWeightOverCost;
+        break;
+    case Scenario2Strategy::AREA_ASC:
+        orderOrdering = Order::compareByAreaAsc;
+        vanOrdering = Van::compareByAreaOverCost;
+        break;
+    case Scenario2Strategy::AREA_DESC:
+        orderOrdering = Order::compareByAreaDesc;
+        vanOrdering = Van::compareByAreaOverCost;
         break;
     }
 

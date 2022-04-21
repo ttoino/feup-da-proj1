@@ -46,8 +46,12 @@ const SimulationResult scenario1(const Dataset &dataset,
                                  Scenario1Strategy strat);
 
 enum class Scenario2Strategy {
-    DIVIDE,
-    MULTIPLY,
+    VOLUME_ASC,
+    VOLUME_DESC,
+    WEIGHT_ASC,
+    WEIGHT_DESC,
+    AREA_ASC,
+    AREA_DESC,
 };
 
 const SimulationResult scenario2(const Dataset &dataset,

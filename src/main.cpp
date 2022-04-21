@@ -11,11 +11,10 @@ std::string DATASETS_PATH;
 
 int main(int argc, char **argv) {
     // Taken from https://stackoverflow.com/a/55579815/9937109
-    DATASETS_PATH =
-        (std::filesystem::weakly_canonical(std::filesystem::path(argv[0]))
-             .parent_path() /
-         "datasets/")
-            .string();
+    DATASETS_PATH = std::filesystem::weakly_canonical(argv[0])
+                        .parent_path()
+                        .append("datasets/")
+                        .string();
 
     UserInterface ui{};
 
