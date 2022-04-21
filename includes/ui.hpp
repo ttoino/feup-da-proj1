@@ -36,6 +36,7 @@ enum Menu {
     CHOOSE_SCENARIO,
 
     CHOOSE_DATASET,
+    GENERATE_DATASET,
 
     SCENARIO_ONE,
     SCENARIO_TWO,
@@ -169,6 +170,8 @@ class UserInterface {
     void chooseScenarioMenu();
 
     void chooseDatasetMenu(Dataset &dataset);
+
+    void generateDatasetMenu(Dataset &dataset);
 
     void scenarioOneMenu(Dataset &dataset);
 

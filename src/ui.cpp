@@ -126,6 +126,9 @@ void UserInterface::show(Dataset &dataset) {
     case CHOOSE_DATASET:
         chooseDatasetMenu(dataset);
         break;
+    case GENERATE_DATASET:
+        generateDatasetMenu(dataset);
+        break;
 
     case SCENARIO_ONE:
         scenarioOneMenu(dataset);
@@ -163,6 +166,7 @@ void UserInterface::mainMenu() {
         {"Vans", SHOW_VANS},
         {"Choose dataset", CHOOSE_DATASET},
         {"Choose scenario", CHOOSE_SCENARIO},
+        {"Generate dataset", GENERATE_DATASET},
     });
     currentMenu = menu.value_or(currentMenu);
 }
@@ -231,6 +235,51 @@ void UserInterface::chooseDatasetMenu(Dataset &dataset) {
         return;
 
     dataset = Dataset::load(selection.value());
+}
+
+void UserInterface::generateDatasetMenu(Dataset &dataset) {
+    DatasetGenerationParams params;
+    std::string name;
+    while (true) {
+        name = getStringInput("Dataset name: ");
+
+        if (name == "")
+            errorMessage = "Empty name not allowed!\n";
+        else if (name.find('/') != std::string::npos)
+            errorMessage = "Slashes are not allowed!\n";
+        else
+            break;
+    }
+
+    params.numberOfOrders =
+        getUnsignedInput("Number of orders to generate: ", 1);
+    params.minOrderVolume = getUnsignedInput("Minimum volume for orders: ", 1);
+    params.maxOrderVolume =
+        getUnsignedInput("Maximum volume for orders: ", params.minOrderVolume);
+    params.minOrderWeight = getUnsignedInput("Minimum weight for orders: ", 1);
+    params.maxOrderWeight =
+        getUnsignedInput("Maximum weight for orders: ", params.minOrderWeight);
+    params.minOrderReward = getUnsignedInput("Minimum reward for orders: ", 1);
+    params.maxOrderReward =
+        getUnsignedInput("Maximum reward for orders: ", params.minOrderReward);
+    params.minOrderDuration =
+        getUnsignedInput("Minimum duration for orders: ", 1);
+    params.maxOrderDuration = getUnsignedInput("Maximum duration for orders: ",
+                                               params.minOrderDuration);
+
+    params.numberOfVans = getUnsignedInput("Number of vans to generate: ", 1);
+    params.minVanVolume = getUnsignedInput("Minimum volume for vans: ", 1);
+    params.maxVanVolume =
+        getUnsignedInput("Maximum volume for vans: ", params.minVanVolume);
+    params.minVanWeight = getUnsignedInput("Minimum weight for vans: ", 1);
+    params.maxVanWeight =
+        getUnsignedInput("Maximum weight for vans: ", params.minVanWeight);
+    params.minVanCost = getUnsignedInput("Minimum cost for vans: ", 1);
+    params.maxVanCost =
+        getUnsignedInput("Maximum cost for vans: ", params.minVanCost);
+
+    currentMenu = MAIN;
+    dataset = Dataset::generate(name, params);
 }
 
 void UserInterface::scenarioOneMenu(Dataset &dataset) {

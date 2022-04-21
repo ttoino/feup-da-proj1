@@ -12,31 +12,31 @@ class Dataset;
 
 struct DatasetGenerationParams {
     // Order params
-    int numberOfOrders{100};
+    size_t numberOfOrders{100};
 
-    int minOrderWeight{0};
-    int maxOrderWeight{100};
+    unsigned int minOrderWeight{0};
+    unsigned int maxOrderWeight{100};
 
-    int minOrderVolume{0};
-    int maxOrderVolume{100};
+    unsigned int minOrderVolume{0};
+    unsigned int maxOrderVolume{100};
 
-    int minOrderReward{0};
-    int maxOrderReward{100};
+    unsigned int minOrderReward{0};
+    unsigned int maxOrderReward{100};
 
-    int minOrderDuration{0};
-    int maxOrderDuration{1000};
+    unsigned int minOrderDuration{0};
+    unsigned int maxOrderDuration{1000};
 
     // Van params
-    int numberOfVans{5};
+    size_t numberOfVans{5};
 
-    int minVanWeight{0};
-    int maxVanWeight{1000};
+    unsigned int minVanWeight{0};
+    unsigned int maxVanWeight{1000};
 
-    int minVanVolume{0};
-    int maxVanVolume{1000};
+    unsigned int minVanVolume{0};
+    unsigned int maxVanVolume{1000};
 
-    int minVanCost{0};
-    int maxVanCost{1000};
+    unsigned int minVanCost{0};
+    unsigned int maxVanCost{1000};
 };
 
 class Dataset {
