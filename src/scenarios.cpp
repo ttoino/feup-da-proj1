@@ -1,7 +1,10 @@
 #include <algorithm>
+#include <fstream>
 #include <limits>
 #include <list>
+#include <sstream>
 
+#include "../includes/constants.hpp"
 #include "../includes/scenarios.hpp"
 
 SimulationResult::SimulationResult(const std::vector<Order> &rorders,
@@ -21,6 +24,17 @@ SimulationResult::SimulationResult(const std::vector<Order> &rorders,
 
     efficiency =
         (double)ordersDispatched / (ordersDispatched + remainingOrders.size());
+}
+
+std::string SimulationResult::toCSV() {
+    std::stringstream out{};
+
+    out << vans.size() << ',' << ordersDispatched << ','
+        << remainingOrders.size() << ',' << efficiency << ','
+        << ((double)deliveryTime / ordersDispatched) << ',' << cost << ','
+        << reward << ',' << profit << ',' << runtime.count() << '\n';
+
+    return out.str();
 }
 
 SimulationResult _firstFitBinPacking(std::vector<Order> o,
@@ -155,4 +169,31 @@ const SimulationResult scenario3(const Dataset &dataset) {
         {van},
         std::chrono::duration_cast<std::chrono::microseconds>(tend - tstart),
     };
+}
+
+void runAllScenarios() {
+    std::ofstream out{DATASETS_PATH + OUTPUT_FILE};
+    out << OUTPUT_HEADER;
+
+    for (const auto &name : Dataset::getAvailableDatasets()) {
+        Dataset dataset = Dataset::load(name);
+
+        FOR_ENUM(Scenario1Strategy, strat) {
+            auto result = scenario1(dataset, strat);
+
+            out << name << ',' << 1 << ',' << (int)strat << ','
+                << result.toCSV();
+        }
+
+        FOR_ENUM(Scenario2Strategy, strat) {
+            auto result = scenario2(dataset, strat);
+
+            out << name << ',' << 2 << ',' << (int)strat << ','
+                << result.toCSV();
+        }
+
+        auto result = scenario3(dataset);
+
+        out << name << ',' << 3 << ',' << 1 << ',' << result.toCSV();
+    }
 }

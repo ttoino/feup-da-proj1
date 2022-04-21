@@ -1,6 +1,12 @@
 #ifndef DA_PROJ1_UTILS_H
 #define DA_PROJ1_UTILS_H
 
+#define ENUM(name, ...) enum class name { BEGIN, __VA_ARGS__, END }
+#define FOR_ENUM(type, name)                                                   \
+    for (type name = static_cast<type>(static_cast<int>(type::BEGIN) + 1);     \
+         name != type::END;                                                    \
+         name = static_cast<type>(static_cast<int>(name) + 1))
+
 #include <string>
 #include <vector>
 

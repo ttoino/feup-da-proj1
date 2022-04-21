@@ -139,6 +139,9 @@ void UserInterface::show(Dataset &dataset) {
     case SCENARIO_THREE:
         scenarioThreeMenu(dataset);
         break;
+    case ALL_SCENARIOS:
+        allScenariosMenu();
+        break;
 
     case RESULTS:
         resultsMenu();
@@ -210,6 +213,7 @@ void UserInterface::chooseScenarioMenu() {
         {"Scenario 1 - Minimize used vans", SCENARIO_ONE},
         {"Scenario 2 - Maximize profit", SCENARIO_TWO},
         {"Scenario 3 - Maximize express deliveries", SCENARIO_THREE},
+        {"Run all scenarios (with every dataset)", ALL_SCENARIOS},
     });
     currentMenu = menu.value_or(currentMenu);
 }
@@ -217,12 +221,12 @@ void UserInterface::chooseScenarioMenu() {
 void UserInterface::chooseDatasetMenu(Dataset &dataset) {
     Options<std::string> options{{"Go back", ""}};
 
-    for (auto &p : std::filesystem::directory_iterator(DATASETS_PATH))
-        if (p.is_directory())
-            options.push_back({
-                p.path().filename().string(),
-                p.path().filename().string(),
-            });
+    auto datasets = Dataset::getAvailableDatasets();
+    std::transform(
+        datasets.begin(), datasets.end(), std::back_inserter(options),
+        [](const std::string &n) -> Options<std::string>::value_type {
+            return {n, n};
+        });
 
     const auto selection = optionsMenu(options);
 
@@ -331,6 +335,13 @@ void UserInterface::scenarioTwoMenu(Dataset &dataset) {
 void UserInterface::scenarioThreeMenu(Dataset &dataset) {
     result = scenario3(dataset);
     currentMenu = RESULTS;
+}
+
+void UserInterface::allScenariosMenu() {
+    runAllScenarios();
+
+    getStringInput("Press enter to continue ");
+    currentMenu = MAIN;
 }
 
 void UserInterface::resultsMenu() {

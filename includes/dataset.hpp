@@ -52,6 +52,7 @@ public:
     static Dataset load(const std::string &path);
     static Dataset generate(const std::string &name,
                             const DatasetGenerationParams &params);
+    static std::vector<std::string> getAvailableDatasets();
 };
 
 #endif

@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <filesystem>
 
 #include "../includes/constants.hpp"
@@ -20,4 +21,14 @@ Dataset Dataset::generate(const std::string &name,
         Order::generateDataset(name, params),
         Van::generateDataset(name, params),
     };
+}
+
+std::vector<std::string> Dataset::getAvailableDatasets() {
+    std::vector<std::string> result{};
+
+    for (auto &p : std::filesystem::directory_iterator(DATASETS_PATH))
+        if (p.is_directory())
+            result.push_back(p.path().filename().string());
+
+    return result;
 }

@@ -8,6 +8,7 @@
 
 #include "dataset.hpp"
 #include "order.hpp"
+#include "utils.hpp"
 #include "van.hpp"
 
 /**
@@ -28,35 +29,27 @@ struct SimulationResult {
     SimulationResult(const std::vector<Order> &rorders,
                      const std::vector<Van> &vans,
                      const std::chrono::microseconds &runtime);
+
+    std::string toCSV();
 };
 
 using VanOrdering = std::function<bool(const Van &, const Van &)>;
 using OrderOrdering = std::function<bool(const Order &, const Order &)>;
 
-enum class Scenario1Strategy {
-    VOLUME_ASC,
-    VOLUME_DESC,
-    WEIGHT_ASC,
-    WEIGHT_DESC,
-    AREA_ASC,
-    AREA_DESC,
-};
+ENUM(Scenario1Strategy, VOLUME_ASC, VOLUME_DESC, WEIGHT_ASC, WEIGHT_DESC,
+     AREA_ASC, AREA_DESC);
 
 const SimulationResult scenario1(const Dataset &dataset,
                                  Scenario1Strategy strat);
 
-enum class Scenario2Strategy {
-    VOLUME_ASC,
-    VOLUME_DESC,
-    WEIGHT_ASC,
-    WEIGHT_DESC,
-    AREA_ASC,
-    AREA_DESC,
-};
+ENUM(Scenario2Strategy, VOLUME_ASC, VOLUME_DESC, WEIGHT_ASC, WEIGHT_DESC,
+     AREA_ASC, AREA_DESC);
 
 const SimulationResult scenario2(const Dataset &dataset,
                                  Scenario2Strategy strat);
 
 const SimulationResult scenario3(const Dataset &dataset);
+
+void runAllScenarios();
 
 #endif

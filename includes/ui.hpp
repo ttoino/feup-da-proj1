@@ -41,6 +41,7 @@ enum Menu {
     SCENARIO_ONE,
     SCENARIO_TWO,
     SCENARIO_THREE,
+    ALL_SCENARIOS,
 
     RESULTS,
     RESULTS_VANS,
@@ -178,6 +179,8 @@ class UserInterface {
     void scenarioTwoMenu(Dataset &dataset);
 
     void scenarioThreeMenu(Dataset &dataset);
+
+    void allScenariosMenu();
 
     void resultsMenu();
 

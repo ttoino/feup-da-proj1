@@ -7,6 +7,12 @@
  * @brief Where the different datasets are stored.
  */
 extern std::string DATASETS_PATH;
+
+const std::string OUTPUT_FILE = "output.csv";
+
+const std::string OUTPUT_HEADER =
+    "dataset,scenario,heuristic,usedvans,ordersdispatched,remainingorders,"
+    "efficiency,avgdeliverytime,cost,reward,profit,runtime\n";
 /**
  * @brief Where the vans are stored.
  */
