@@ -197,12 +197,12 @@ void UserInterface::paginatedMenu(const std::vector<T> &items) {
 }
 
 void UserInterface::showOrdersMenu(Dataset &dataset) {
-    std::cout << "Volume\tWeight\tReward\tDuration\n";
+    std::cout << "ID\tVolume\tWeight\tReward\tDuration\n";
     paginatedMenu(dataset.getOrders());
 }
 
 void UserInterface::showVansMenu(Dataset &dataset) {
-    std::cout << "Volume\tWeight\tCost\n" << std::left;
+    std::cout << "ID\tVolume\tWeight\tCost\n" << std::left;
     paginatedMenu(dataset.getVans());
 }
 
@@ -364,6 +364,6 @@ void UserInterface::resultsMenu() {
 }
 
 void UserInterface::resultsVansMenu() {
-    std::cout << "Volume\tWeight\tCost\tOrders\n" << std::left;
+    std::cout << "ID\tVolume\tWeight\tCost\tOrders\n" << std::left;
     paginatedMenu(result.vans);
 }
