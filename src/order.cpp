@@ -5,22 +5,23 @@
 #include "../includes/order.hpp"
 #include "../includes/utils.hpp"
 
-int Order::GLOBAL_ID = 1;
+unsigned int Order::GLOBAL_ID = 1;
 
-Order::Order(int vol, int weight, int reward, int duration)
+Order::Order(unsigned int vol, unsigned int weight, unsigned int reward,
+             unsigned int duration)
     : volume(vol), weight(weight), reward(reward), duration(duration),
       id(GLOBAL_ID++){};
 
-int Order::getVolume() const { return this->volume; }
-int Order::getWeight() const { return this->weight; }
-int Order::getReward() const { return this->reward; }
-int Order::getDuration() const { return this->duration; }
+unsigned int Order::getVolume() const { return this->volume; }
+unsigned int Order::getWeight() const { return this->weight; }
+unsigned int Order::getReward() const { return this->reward; }
+unsigned int Order::getDuration() const { return this->duration; }
 
 Order Order::from(const std::vector<std::string> &tokens) {
-    int vol = std::stoi(tokens.at(0));
-    int weight = std::stoi(tokens.at(1));
-    int reward = std::stoi(tokens.at(2));
-    int duration = std::stoi(tokens.at(3));
+    unsigned int vol = std::stoul(tokens.at(0));
+    unsigned int weight = std::stoul(tokens.at(1));
+    unsigned int reward = std::stoul(tokens.at(2));
+    unsigned int duration = std::stoul(tokens.at(3));
 
     return Order{vol, weight, reward, duration};
 }
@@ -130,13 +131,3 @@ bool Order::compareByAreaDesc(const Order &o1, const Order &o2) {
 bool Order::compareByDuration(const Order &o1, const Order &o2) {
     return o1.getDuration() < o2.getDuration();
 }
-
-// bool Order::compareByRewardDivision(const Order &o1, const Order &o2) {
-//     return ((o1.getVolume() * o1.getWeight()) / o1.getReward() <
-//             (o2.getVolume() * o2.getWeight()) / o2.getReward());
-// }
-
-// bool Order::compareByRewardMult(const Order &o1, const Order &o2) {
-//     return o1.getWeight() * o1.getVolume() * o1.getReward() >
-//            o2.getVolume() * o2.getWeight() * o2.getReward();
-// }

@@ -10,115 +10,154 @@ class Van;
 #include <vector>
 
 /**
- * @brief Object representation for a van in the context of the application.
+ * @brief Represents a van that can deliver orders.
  */
 class Van {
+    /** @brief Used to generate sequential ids. */
+    static unsigned int GLOBAL_ID;
 
-    static int GLOBAL_ID;
-
-    int maxVolume, maxWeight, cost, currentVolume, currentWeight, id;
+    /** @brief How much volume this van can handle. */
+    unsigned int maxVolume;
+    /** @brief How much weight this van can handle. */
+    unsigned int maxWeight;
+    /** @brief How much this van costs to operate. */
+    unsigned int cost;
+    /** @brief How much volume this van is carrying. */
+    unsigned int currentVolume;
+    /** @brief How much weight this van is carrying. */
+    unsigned int currentWeight;
+    /** @brief Unique number that identifies this van. */
+    unsigned int id;
+    /** @brief The orders this van is delivering. */
     std::vector<Order> orders;
 
 public:
     /**
-     * @brief Construct a new Van object
+     * @brief Creates a van from the given parameters
      *
-     * @param maxVol the maximum volume this Van can hold
-     * @param maxWeight the maximum weight this Van can hold
-     * @param cost the cost of moving cargo using this Van
+     * @param maxVolume How much volume this van can handle.
+     * @param maxWeight How much weight this van can handle.
+     * @param cost How much this van costs to operate.
      */
-    Van(int maxVol, int maxWeight, int cost);
+    Van(unsigned int maxVolume, unsigned int maxWeight, unsigned int cost);
 
-    /**
-     * @brief Get this Van's maximum volume.
-     *
-     * @return this Van's maximum volume
-     */
-    int getMaxVolume() const;
-
-    /**
-     * @brief Get this Van's maximum weight.'
-     *
-     * @return this Van's maximum weight'
-     */
-    int getMaxWeight() const;
-
-    /**
-     * @brief Get the cost for using this Van.
-     *
-     * @return the cost of moving cargo using this Van
-     */
-    int getCost() const;
-
-    /**
-     * @brief Get the current volume allocated for this van.
-     *
-     * @return the current volume allocated for this Van
-     */
-    int getCurrentVolume() const;
-
-    /**
-     * @brief Get the current weight allocated for this van.
-     *
-     * @return the current weight allocated for this van
-     */
-    int getCurrentWeight() const;
-
-    // TODO: Documentation
+    /** @return How much volume this van can handle. */
+    unsigned int getMaxVolume() const;
+    /** @return How much weight this van can handle. */
+    unsigned int getMaxWeight() const;
+    /** @return How much this van costs to operate. */
+    unsigned int getCost() const;
+    /** @return How much volume this van is carrying. */
+    unsigned int getCurrentVolume() const;
+    /** @return How much weight this van is carrying. */
+    unsigned int getCurrentWeight() const;
+    /** @return The orders this van is delivering. */
     std::vector<Order> getOrders() const;
 
     /**
-     * @brief Constructs a Van object from a collection of tokens.
+     * @brief Creates a van from a set of tokens.
      *
-     * @return the corresponding Van object
+     * @param tokens The parameters to create the order from. Must be three
+     *               strings representing the #maxVolume, #maxWeight and #cost
+     *               for the van.
+     *
+     * @return The van that was created.
      */
-    static Van from(const std::vector<std::string> &);
+    static Van from(const std::vector<std::string> &tokens);
 
     /**
-     * @brief Processes the dataset for vans and returns a collection of Van
-     * objects parsed from that dataset.
+     * @brief Loads vans from the dataset at a given path.
      *
-     * @return a collection of Van objects
+     * @note The path must be relative to ::DATASETS_PATH.
+     *
+     * @param path The folder where the dataset is.
+     *
+     * @return A vector of vans that were loaded.
      */
     static std::vector<Van> processDataset(const std::string &path);
 
+    /**
+     * @brief Generates vans for a new dataset from pseudo random data and
+     *        stores them in a file.
+     *
+     * @param name The folder where the dataset will be stored.
+     * @param params The parameters given to the random number generators.
+     *
+     * @return The vector of vans that were generated.
+     */
     static std::vector<Van>
     generateDataset(const std::string &name,
                     const DatasetGenerationParams &params);
 
     /**
-     * @brief assigns an order to a van
+     * @brief Adds an order to this van.
      *
-     * @param order the order to be assigned
+     * @param order The order to be added.
      *
-     * @return true if successfully, false otherwise
+     * @return true if successful.
+     * @return false otherwise.
      */
     bool addOrder(const Order &order);
 
     /**
      * @brief Checks if an order can fit in this van.
      *
-     * @return if the order can fit in this van
+     * @param order The order.
+     *
+     * @return Whether the order can fit in this van.
      */
     bool canFit(const Order &order) const;
 
+    // TODO: Is this really needed?
     /**
      * @brief Prints statistics about this van.
      *
-     * @param out the output stream to write the statistics to
+     * @param out The output stream to write the statistics to.
      */
     void printStatistics(std::ostream &out) const;
 
-    friend std::ostream &operator<<(std::ostream &, const Van &);
+    /**
+     * @brief Prints a representation of a van to a stream.
+     *
+     * @param out The stream to print to.
+     * @param van The van to print.
+     *
+     * @return @p out
+     */
+    friend std::ostream &operator<<(std::ostream &out, const Van &van);
 
     // Scenario 1
+    /**
+     * @brief Function to be used in std::sort() to sort vans by descending
+     *        #maxVolume.
+     */
     static bool compareByVolume(const Van &v1, const Van &v2);
+    /**
+     * @brief Function to be used in std::sort() to sort vans by descending
+     *        #maxWeight.
+     */
     static bool compareByWeight(const Van &v1, const Van &v2);
+    /**
+     * @brief Function to be used in std::sort() to sort vans by descending
+     *        "max area" (#maxVolume × #maxWeight).
+     */
     static bool compareByArea(const Van &v1, const Van &v2);
 
     // Scenario 2
+    /**
+     * @brief Function to be used in std::sort() to sort vans by descending
+     *        #maxVolume divided by #cost.
+     */
     static bool compareByVolumeOverCost(const Van &v1, const Van &v2);
+    /**
+     * @brief Function to be used in std::sort() to sort vans by descending
+     *        #maxWeight divided by #cost.
+     */
     static bool compareByWeightOverCost(const Van &v1, const Van &v2);
+    /**
+     * @brief Function to be used in std::sort() to sort vans by descending
+     *        "max area" (#maxVolume × #maxWeight) divided by #cost.
+     */
     static bool compareByAreaOverCost(const Van &v1, const Van &v2);
 };
 

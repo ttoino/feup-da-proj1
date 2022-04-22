@@ -7,25 +7,35 @@
  * @brief Where the different datasets are stored.
  */
 extern std::string DATASETS_PATH;
-
+/**
+ * @brief Where the scenario results will be stored in the datasets folder.
+ */
 const std::string OUTPUT_FILE = "output.csv";
-
+/**
+ * @brief The header to be printed at the start of the scenario results.
+ */
 const std::string OUTPUT_HEADER =
     "dataset,scenario,heuristic,usedvans,ordersdispatched,remainingorders,"
     "efficiency,avgdeliverytime,cost,reward,profit,runtime\n";
 /**
- * @brief Where the vans are stored.
+ * @brief Where the vans are stored in a dataset folder.
  */
 const std::string VANS_FILE = "/carrinhas.txt";
-
+/**
+ * @brief The header to be printed at the start of a file containing vans.
+ */
 const std::string VANS_HEADER = "volMax pesoMax custo\n";
 /**
- * @brief Where the orders are stored.
+ * @brief Where the orders are stored in a dataset folder.
  */
 const std::string ORDERS_FILE = "/encomendas.txt";
-
+/**
+ * @brief The header to be printed at the start of a file containing orders.
+ */
 const std::string ORDERS_HEADER = "volume peso recompensa duração(s)\n";
-
+/**
+ * @brief How many items to print in each page in UserInterface#paginatedMenu().
+ */
 const unsigned int ITEMS_PER_PAGE = 10;
 
 // Terminal escape sequences

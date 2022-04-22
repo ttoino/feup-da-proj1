@@ -111,46 +111,46 @@ void UserInterface::show(Dataset &dataset) {
     std::cout << CLEAR_SCREEN << PROGRAM_NAME << '\n' << std::endl;
 
     switch (currentMenu) {
-    case MAIN:
+    case Menu::MAIN:
         mainMenu();
         break;
-    case SHOW_ORDERS:
+    case Menu::SHOW_ORDERS:
         showOrdersMenu(dataset);
         break;
-    case SHOW_VANS:
+    case Menu::SHOW_VANS:
         showVansMenu(dataset);
         break;
-    case CHOOSE_SCENARIO:
+    case Menu::CHOOSE_SCENARIO:
         chooseScenarioMenu();
         break;
-    case CHOOSE_DATASET:
+    case Menu::CHOOSE_DATASET:
         chooseDatasetMenu(dataset);
         break;
-    case GENERATE_DATASET:
+    case Menu::GENERATE_DATASET:
         generateDatasetMenu(dataset);
         break;
 
-    case SCENARIO_ONE:
+    case Menu::SCENARIO_ONE:
         scenarioOneMenu(dataset);
         break;
-    case SCENARIO_TWO:
+    case Menu::SCENARIO_TWO:
         scenarioTwoMenu(dataset);
         break;
-    case SCENARIO_THREE:
+    case Menu::SCENARIO_THREE:
         scenarioThreeMenu(dataset);
         break;
-    case ALL_SCENARIOS:
+    case Menu::ALL_SCENARIOS:
         allScenariosMenu();
         break;
 
-    case RESULTS:
+    case Menu::RESULTS:
         resultsMenu();
         break;
-    case RESULTS_VANS:
+    case Menu::RESULTS_VANS:
         resultsVansMenu();
         break;
 
-    case EXIT:
+    case Menu::EXIT:
     default:
         throw Exit();
         break;
@@ -164,12 +164,12 @@ void UserInterface::exit() {
 
 void UserInterface::mainMenu() {
     auto menu = optionsMenu<Menu>({
-        {"Exit", EXIT},
-        {"Orders", SHOW_ORDERS},
-        {"Vans", SHOW_VANS},
-        {"Choose dataset", CHOOSE_DATASET},
-        {"Choose scenario", CHOOSE_SCENARIO},
-        {"Generate dataset", GENERATE_DATASET},
+        {"Exit", Menu::EXIT},
+        {"Orders", Menu::SHOW_ORDERS},
+        {"Vans", Menu::SHOW_VANS},
+        {"Choose dataset", Menu::CHOOSE_DATASET},
+        {"Choose scenario", Menu::CHOOSE_SCENARIO},
+        {"Generate dataset", Menu::GENERATE_DATASET},
     });
     currentMenu = menu.value_or(currentMenu);
 }
@@ -187,12 +187,11 @@ void UserInterface::paginatedMenu(const std::vector<T> &items) {
         std::cout << *i << std::endl;
 
     std::cout << "\nPage " << page + 1 << " of " << pages;
-    auto option = getStringInput(
-        "\nPress enter for next page, or 'q' to exit paginated view");
+    auto option =
+        getStringInput("\nPress enter for next page, or 'q' to exit ");
 
-    if ((option.size() == 1 && tolower(option.at(0)) == 'q') ||
-        (++page == pages)) {
-        currentMenu = MAIN;
+    if ((option == "q" || option == "Q") || (++page == pages)) {
+        currentMenu = Menu::MAIN;
         page = 0;
     }
 }
@@ -209,11 +208,11 @@ void UserInterface::showVansMenu(Dataset &dataset) {
 
 void UserInterface::chooseScenarioMenu() {
     auto menu = optionsMenu<Menu>({
-        {"Go back", MAIN},
-        {"Scenario 1 - Minimize used vans", SCENARIO_ONE},
-        {"Scenario 2 - Maximize profit", SCENARIO_TWO},
-        {"Scenario 3 - Maximize express deliveries", SCENARIO_THREE},
-        {"Run all scenarios (with every dataset)", ALL_SCENARIOS},
+        {"Go back", Menu::MAIN},
+        {"Scenario 1 - Minimize used vans", Menu::SCENARIO_ONE},
+        {"Scenario 2 - Maximize profit", Menu::SCENARIO_TWO},
+        {"Scenario 3 - Maximize express deliveries", Menu::SCENARIO_THREE},
+        {"Run all scenarios (with every dataset)", Menu::ALL_SCENARIOS},
     });
     currentMenu = menu.value_or(currentMenu);
 }
@@ -233,7 +232,7 @@ void UserInterface::chooseDatasetMenu(Dataset &dataset) {
     if (!selection.has_value())
         return;
 
-    currentMenu = MAIN;
+    currentMenu = Menu::MAIN;
 
     if (selection == "")
         return;
@@ -282,7 +281,7 @@ void UserInterface::generateDatasetMenu(Dataset &dataset) {
     params.maxVanCost =
         getUnsignedInput("Maximum cost for vans: ", params.minVanCost);
 
-    currentMenu = MAIN;
+    currentMenu = Menu::MAIN;
     dataset = Dataset::generate(name, params);
 }
 
@@ -301,12 +300,12 @@ void UserInterface::scenarioOneMenu(Dataset &dataset) {
         return;
 
     if (!selection.value().has_value()) { // User wants to go back
-        currentMenu = CHOOSE_SCENARIO;
+        currentMenu = Menu::CHOOSE_SCENARIO;
         return;
     }
 
     result = scenario1(dataset, selection.value().value());
-    currentMenu = RESULTS;
+    currentMenu = Menu::RESULTS;
 }
 
 void UserInterface::scenarioTwoMenu(Dataset &dataset) {
@@ -324,24 +323,24 @@ void UserInterface::scenarioTwoMenu(Dataset &dataset) {
         return;
 
     if (!selection.value().has_value()) { // User wants to go back
-        currentMenu = CHOOSE_SCENARIO;
+        currentMenu = Menu::CHOOSE_SCENARIO;
         return;
     }
 
     result = scenario2(dataset, selection.value().value());
-    currentMenu = RESULTS;
+    currentMenu = Menu::RESULTS;
 }
 
 void UserInterface::scenarioThreeMenu(Dataset &dataset) {
     result = scenario3(dataset);
-    currentMenu = RESULTS;
+    currentMenu = Menu::RESULTS;
 }
 
 void UserInterface::allScenariosMenu() {
     runAllScenarios();
 
     getStringInput("Press enter to continue ");
-    currentMenu = MAIN;
+    currentMenu = Menu::MAIN;
 }
 
 void UserInterface::resultsMenu() {
@@ -357,19 +356,14 @@ void UserInterface::resultsMenu() {
               << "Total profit: " << result.profit << "€\n"
               << "Took " << result.runtime.count() << "µs\n\n";
 
-    // if (result.vans.size())
-    //     for (auto &van : result.vans)
-    //         van.printStatistics(std::cout);
-
-    getStringInput("Press enter to continue ");
-    currentMenu = MAIN;
-    // currentMenu = optionsMenu<Menu>({
-    //     {"Continue", MAIN},
-    //     {"See vans", RESULTS_VANS},
-    // });
+    auto menu = optionsMenu<Menu>({
+        {"Continue", Menu::MAIN},
+        {"See vans", Menu::RESULTS_VANS},
+    });
+    currentMenu = menu.value_or(currentMenu);
 }
 
 void UserInterface::resultsVansMenu() {
-    std::cout << "Volume\tWeight\tCost\n" << std::left;
+    std::cout << "Volume\tWeight\tCost\tOrders\n" << std::left;
     paginatedMenu(result.vans);
 }

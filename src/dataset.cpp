@@ -9,6 +9,9 @@
 Dataset::Dataset(const std::vector<Order> &orders, const std::vector<Van> &vans)
     : orders(orders), vans(vans) {}
 
+const std::vector<Van> &Dataset::getVans() const { return vans; }
+const std::vector<Order> &Dataset::getOrders() const { return orders; }
+
 Dataset Dataset::load(const std::string &path) {
     return {Order::processDataset(path), Van::processDataset(path)};
 }

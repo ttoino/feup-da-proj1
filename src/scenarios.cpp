@@ -7,9 +7,9 @@
 #include "../includes/constants.hpp"
 #include "../includes/scenarios.hpp"
 
-SimulationResult::SimulationResult(const std::vector<Order> &rorders,
-                                   const std::vector<Van> &vans,
-                                   const std::chrono::microseconds &runtime)
+ScenarioResult::ScenarioResult(const std::vector<Order> &rorders,
+                               const std::vector<Van> &vans,
+                               const std::chrono::microseconds &runtime)
     : remainingOrders(rorders), vans(vans), runtime(runtime) {
     for (const Van &v : vans) {
         ordersDispatched += v.getOrders().size();
@@ -26,21 +26,20 @@ SimulationResult::SimulationResult(const std::vector<Order> &rorders,
         (double)ordersDispatched / (ordersDispatched + remainingOrders.size());
 }
 
-std::string SimulationResult::toCSV() {
+std::string ScenarioResult::toCSV() const {
     std::stringstream out{};
 
     out << vans.size() << ',' << ordersDispatched << ','
         << remainingOrders.size() << ',' << efficiency << ','
         << ((double)deliveryTime / ordersDispatched) << ',' << cost << ','
-        << reward << ',' << profit << ',' << runtime.count() << '\n';
+        << reward << ',' << profit << ',' << runtime.count();
 
     return out.str();
 }
 
-SimulationResult _firstFitBinPacking(std::vector<Order> o,
-                                     std::vector<Van> vans,
-                                     const VanOrdering &vanOrdering,
-                                     const OrderOrdering &orderOrdering) {
+ScenarioResult _firstFitBinPacking(std::vector<Order> o, std::vector<Van> vans,
+                                   const VanOrdering &vanOrdering,
+                                   const OrderOrdering &orderOrdering) {
     auto tstart = std::chrono::high_resolution_clock::now();
 
     std::sort(o.begin(), o.end(), orderOrdering);
@@ -74,8 +73,8 @@ SimulationResult _firstFitBinPacking(std::vector<Order> o,
     };
 }
 
-const SimulationResult scenario1(const Dataset &dataset,
-                                 Scenario1Strategy strat) {
+const ScenarioResult scenario1(const Dataset &dataset,
+                               Scenario1Strategy strat) {
     OrderOrdering orderOrdering;
     VanOrdering vanOrdering;
 
@@ -110,8 +109,8 @@ const SimulationResult scenario1(const Dataset &dataset,
                                vanOrdering, orderOrdering);
 }
 
-const SimulationResult scenario2(const Dataset &dataset,
-                                 Scenario2Strategy strat) {
+const ScenarioResult scenario2(const Dataset &dataset,
+                               Scenario2Strategy strat) {
     OrderOrdering orderOrdering;
     VanOrdering vanOrdering;
 
@@ -146,7 +145,7 @@ const SimulationResult scenario2(const Dataset &dataset,
                                vanOrdering, orderOrdering);
 }
 
-const SimulationResult scenario3(const Dataset &dataset) {
+const ScenarioResult scenario3(const Dataset &dataset) {
     auto tstart = std::chrono::high_resolution_clock::now();
 
     std::vector<Order> orders = dataset.getOrders();
@@ -182,18 +181,18 @@ void runAllScenarios() {
             auto result = scenario1(dataset, strat);
 
             out << name << ',' << 1 << ',' << (int)strat << ','
-                << result.toCSV();
+                << result.toCSV() << '\n';
         }
 
         FOR_ENUM(Scenario2Strategy, strat) {
             auto result = scenario2(dataset, strat);
 
             out << name << ',' << 2 << ',' << (int)strat << ','
-                << result.toCSV();
+                << result.toCSV() << '\n';
         }
 
         auto result = scenario3(dataset);
 
-        out << name << ',' << 3 << ',' << 1 << ',' << result.toCSV();
+        out << name << ',' << 3 << ',' << 1 << ',' << result.toCSV() << '\n';
     }
 }

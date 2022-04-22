@@ -6,23 +6,23 @@
 #include "../includes/utils.hpp"
 #include "../includes/van.hpp"
 
-int Van::GLOBAL_ID = 1;
+unsigned int Van::GLOBAL_ID = 1;
 
-Van::Van(int maxVol, int maxWeight, int cost)
+Van::Van(unsigned int maxVol, unsigned int maxWeight, unsigned int cost)
     : maxVolume(maxVol), currentVolume(0), maxWeight(maxWeight),
       currentWeight(0), cost(cost), id(Van::GLOBAL_ID++){};
 
-int Van::getMaxVolume() const { return this->maxVolume; };
-int Van::getMaxWeight() const { return this->maxWeight; };
-int Van::getCost() const { return this->cost; };
-int Van::getCurrentVolume() const { return this->currentVolume; };
-int Van::getCurrentWeight() const { return this->currentWeight; };
+unsigned int Van::getMaxVolume() const { return this->maxVolume; };
+unsigned int Van::getMaxWeight() const { return this->maxWeight; };
+unsigned int Van::getCost() const { return this->cost; };
+unsigned int Van::getCurrentVolume() const { return this->currentVolume; };
+unsigned int Van::getCurrentWeight() const { return this->currentWeight; };
 std::vector<Order> Van::getOrders() const { return this->orders; };
 
 Van Van::from(const std::vector<std::string> &tokens) {
-    int maxVol = std::stoi(tokens.at(0));
-    int maxWeight = std::stoi(tokens.at(1));
-    int cost = std::stoi(tokens.at(2));
+    unsigned int maxVol = std::stoul(tokens.at(0));
+    unsigned int maxWeight = std::stoul(tokens.at(1));
+    unsigned int cost = std::stoul(tokens.at(2));
 
     return Van{maxVol, maxWeight, cost};
 }
@@ -84,15 +84,18 @@ std::vector<Van> Van::generateDataset(const std::string &name,
 }
 
 std::ostream &operator<<(std::ostream &out, const Van &v) {
-    if (v.getCurrentVolume())
+    if (v.getCurrentVolume() > 0)
         out << v.getCurrentVolume() << '/';
 
     out << v.getMaxVolume() << '\t';
 
-    if (v.getCurrentWeight())
+    if (v.getCurrentWeight() > 0)
         out << v.getCurrentWeight() << '/';
 
     out << v.getMaxWeight() << '\t' << v.getCost();
+
+    if (!v.getOrders().empty())
+        out << '\t' << v.getOrders().size();
 
     return out;
 }

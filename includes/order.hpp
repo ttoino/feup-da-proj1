@@ -10,88 +10,126 @@ class Order;
 #include <vector>
 
 /**
- * @brief Object representation for a delivery in the context of the
- * application.
+ * @brief Represents an order that needs to be delivered.
  */
 class Order {
+    /** @brief Used to generate sequential ids. */
+    static unsigned int GLOBAL_ID;
 
-    static int GLOBAL_ID;
-
-    int volume, weight, reward, duration, id;
+    /** @brief How much volume this order takes up. */
+    unsigned int volume;
+    /** @brief How much this order weighs. */
+    unsigned int weight;
+    /** @brief How much reward this order will give. */
+    unsigned int reward;
+    /** @brief How long this order takes to be delivered. */
+    unsigned int duration;
+    /** @brief Unique number that identifies this order. */
+    unsigned int id;
 
 public:
     /**
-     * @brief Construct a new Order object
+     * @brief Creates an order from the given parameters.
      *
-     * @param vol the volume of this delivery
-     * @param weight the weight of this delivery
-     * @param reward the reward for this delivery
-     * @param duration the duration of this delivery
+     * @param volume How much volume this order takes up.
+     * @param weight How much this order weighs.
+     * @param reward How much reward this order will give.
+     * @param duration How long this order takes to be delivered.
      */
-    Order(int vol, int weight, int reward, int duration);
+    Order(unsigned int volume, unsigned int weight, unsigned int reward,
+          unsigned int duration);
+
+    /** @return How much volume this order takes up. */
+    unsigned int getVolume() const;
+    /** @return How much this order weighs. */
+    unsigned int getWeight() const;
+    /** @return How much reward this order will give. */
+    unsigned int getReward() const;
+    /** @return How long this order takes to be delivered. */
+    unsigned int getDuration() const;
 
     /**
-     * @brief Get the volume of this delivery
+     * @brief Creates an order from a set of tokens.
      *
-     * @return the volume of this delivery
+     * @param tokens The parameters to create the order from. Must be four
+     *               strings representing the #volume, #weight, #reward and
+     *               #duration for the order.
+     *
+     * @return The order that was created.
      */
-    int getVolume() const;
+    static Order from(const std::vector<std::string> &tokens);
 
     /**
-     * @brief Get the weight of this delivery
+     * @brief Loads orders from the dataset at a given path.
      *
-     * @return the weight of this delivery
-     */
-    int getWeight() const;
-
-    /**
-     * @brief Get the reward for this delivery
+     * @note The path must be relative to ::DATASETS_PATH.
      *
-     * @return the reward for this delivery
-     */
-    int getReward() const;
-
-    /**
-     * @brief Get the duration of this delivery
+     * @param path The folder where the dataset is.
      *
-     * @return the duration of this delivery
-     */
-    int getDuration() const;
-
-    /**
-     * @brief Creates a Order object from a set of tokens;
-     *
-     * @return the corresponding Order object
-     */
-    static Order from(const std::vector<std::string> &);
-
-    /**
-     * @brief Processes the dataset for vans and returns a collection of Van
-     * objects parsed from that dataset.
-     *
-     * @return a collection of Van objects
+     * @return A vector of orders that were loaded.
      */
     static std::vector<Order> processDataset(const std::string &path);
 
+    /**
+     * @brief Generates orders for a new dataset from pseudo random data and
+     *        stores them in a file.
+     *
+     * @param name The folder where the dataset will be stored.
+     * @param params The parameters given to the random number generators.
+     *
+     * @return The vector of orders that were generated.
+     */
     static std::vector<Order>
     generateDataset(const std::string &name,
                     const DatasetGenerationParams &params);
 
-    friend std::ostream &operator<<(std::ostream &, const Order &);
+    /**
+     * @brief Prints a representation of an Order to a stream.
+     *
+     * @param out The stream to print to.
+     * @param order The order to print.
+     *
+     * @return @p out
+     */
+    friend std::ostream &operator<<(std::ostream &out, const Order &order);
 
     // Scenario 1 & 2
+    /**
+     * @brief Function to be used in std::sort() to sort orders by ascending
+     *        #volume.
+     */
     static bool compareByVolumeAsc(const Order &o1, const Order &o2);
+    /**
+     * @brief Function to be used in std::sort() to sort orders by descending
+     *        #volume.
+     */
     static bool compareByVolumeDesc(const Order &o1, const Order &o2);
+    /**
+     * @brief Function to be used in std::sort() to sort orders by ascending
+     *        #weight.
+     */
     static bool compareByWeightAsc(const Order &o1, const Order &o2);
+    /**
+     * @brief Function to be used in std::sort() to sort orders by descending
+     *        #weight.
+     */
     static bool compareByWeightDesc(const Order &o1, const Order &o2);
+    /**
+     * @brief Function to be used in std::sort() to sort orders by ascending
+     *        "area" (#volume × #weight).
+     */
     static bool compareByAreaAsc(const Order &o1, const Order &o2);
+    /**
+     * @brief Function to be used in std::sort() to sort orders by descending
+     *        "area" (#volume × #weight).
+     */
     static bool compareByAreaDesc(const Order &o1, const Order &o2);
 
-    // Scenario 2
-    // static bool compareByRewardDivision(const Order &o1, const Order &o2);
-    // static bool compareByRewardMult(const Order &o1, const Order &o2);
-
     // Scenario 3
+    /**
+     * @brief Function to be used in std::sort() to sort orders by ascending
+     *        #duration.
+     */
     static bool compareByDuration(const Order &o1, const Order &o2);
 };
 
