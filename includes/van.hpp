@@ -108,14 +108,6 @@ public:
      */
     bool canFit(const Order &order) const;
 
-    // TODO: Is this really needed?
-    /**
-     * @brief Prints statistics about this van.
-     *
-     * @param out The output stream to write the statistics to.
-     */
-    void printStatistics(std::ostream &out) const;
-
     /**
      * @brief Prints a representation of a van to a stream.
      *
