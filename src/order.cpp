@@ -86,7 +86,7 @@ Order::generateDataset(const std::string &name,
 }
 
 std::ostream &operator<<(std::ostream &out, const Order &o) {
-    out << o.id << '\t<' << o.getVolume() << '\t' << o.getWeight() << '\t'
+    out << o.id << '\t' << o.getVolume() << '\t' << o.getWeight() << '\t'
         << o.getReward() << '\t' << o.getDuration();
 
     return out;
