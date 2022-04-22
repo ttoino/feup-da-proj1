@@ -180,6 +180,12 @@ void UserInterface::paginatedMenu(const std::vector<T> &items) {
 
     unsigned int pages = ceil((float)items.size() / ITEMS_PER_PAGE);
 
+    if (pages == 0) {
+        currentMenu = Menu::MAIN;
+        getStringInput("\nNo items available, press enter to go back ");
+        return;
+    }
+
     for (auto i{items.begin() + page * ITEMS_PER_PAGE},
          end{page == pages - 1 ? items.end()
                                : items.begin() + (page + 1) * ITEMS_PER_PAGE};
